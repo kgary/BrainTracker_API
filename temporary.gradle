@@ -1,0 +1,62 @@
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceSets{
+  main{
+    java{
+      srcDirs 'src'
+    }
+  }
+}
+
+task compile (type:Copy, dependsOn:compileJava) {
+    from war
+    into tomcatwebappsdirectory
+
+}
+
+task deploy1 (dependsOn:compile) {
+    doFirst{
+        ant.propertyfile(file: "src/edu/asu/heal/promisapiv3/dao/dao.properties"){
+            entry(key : "jdbc.url", value : jdbcurl)
+            entry( key : "jdbc.user", value : jdbcusername)
+            entry( key : "jdbc.passwd", value : jdbcpassword)
+        }
+    }
+}
+task deploy2 (type: Copy, dependsOn: deploy1) {
+    from 'src/edu/asu/heal/promisapiv3/dao/dao.properties'
+    into tomcatwebappsdirectory + '/apiv3/WEB-INF/classes/edu/asu/heal/promisapiv3/dao'
+}
+task confirmDeploy (type: Copy, dependsOn: deploy2){
+    from 'WebContent/WEB-INF/web.xml'
+    into tomcatwebappsdirectory + '/apiv3/WEB-INF'
+}
+
+task deploy (dependsOn:confirmDeploy){
+    doLast{
+        println ''
+        println '******************************************************************************************************************************************************************'
+        println ''
+        println 'Current deployment configuration is :-'
+        println 'Tomcat Webapps directory on deployment server : ' + tomcatwebappsdirectory
+        println 'Database url : ' + jdbcurl
+        println 'Database username : ' + jdbcusername
+        println 'Database password : ' + jdbcpassword
+        println ''
+        println 'If you want to change the settings, please do so by changing the gradle.properties in the api directory and run the commands again'
+        println ''
+        println ''
+        println '******************************************************************************************************************************************************************'
+    }
+}
+
+
+repositories {
+    flatDir {
+        dirs 'lib'
+    }
+}
+dependencies {
+compile fileTree(dir: 'WebContent/WEB-INF/lib', include: '*.jar')
+}

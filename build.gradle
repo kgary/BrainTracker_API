@@ -1,0 +1,18 @@
+task buildapi(type: GradleBuild){
+  buildFile = 'api.gradle'
+  tasks = ['something1','CleanUp', 'war']
+}
+
+task buildv30(type: GradleBuild, dependsOn: buildapi){
+  buildFile = 'apiv30.gradle'
+  tasks = ['something1','CleanUp', 'war']
+}
+
+task buildv31(type: GradleBuild, dependsOn: buildv30){
+  buildFile = 'apiv31.gradle'
+  tasks = ['something1','CleanUp', 'war']
+}
+
+task buildAPIs(dependsOn: buildv31){
+
+}
