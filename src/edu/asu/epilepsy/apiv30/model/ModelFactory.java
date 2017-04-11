@@ -24,9 +24,10 @@ import edu.asu.epilepsy.apiv30.model.Patient.Trial;
  *
  */
 public final class ModelFactory {
+	
+	private static final String TAG = ModelFactory.class.getSimpleName();
 	static Logger log = LogManager.getLogger(ModelFactory.class);
 	private DAO __theDAO = null;
-	
 	public ModelFactory() throws ModelException {
 		try {
 			__theDAO = DAOFactory.getTheDAO();
@@ -42,12 +43,13 @@ public final class ModelFactory {
 			ValueObject vo = __theDAO.getActivityInstance(activityInstanceId);
 			
 			if(vo == null){
-				System.out.println("VO is null");
+				System.out.println(TAG + " getActivityInstance :- " + "vo is null");
 				return null;
 			}
 			else
-			{
-				System.out.println("ACTIVITY INSTANCE - " + activityInstanceId);
+			{	
+				System.out.println(TAG + " getActivityInstance :- " + "ACTIVITY INSTANCE - " + activityInstanceId);
+				System.out.println();
 				return new ActivityInstance(activityInstanceId,
 						(Date)vo.getAttribute("StartTime"), 
 						(Date)vo.getAttribute("EndTime"),
@@ -73,10 +75,11 @@ public final class ModelFactory {
 			//ValueObject vo = __theDAO.getActivity(activityId);
 			ValueObject vo = null;
 			vo = __theDAO.getJoinActivity(activityId);
-			System.out.println("ModelFactory - " + activityId);
 			ContainerActivityMapping containerActvtyRef = (ContainerActivityMapping)vo.getAttribute("containerActivityReference");
 			ArrayList<String> childActivities = containerActvtyRef._childActivities;
 			//The check to find if the activity is a child activity or parent activity.
+			
+			
 			childActivities.forEach(System.out::println);
 			if(childActivities.size() > 0)
 			{
@@ -85,14 +88,15 @@ public final class ModelFactory {
 				{
 					Activity activity = getActivity(childactivityId,patientPIN);
 					activities.add(activity);
-					System.out.println(activity._activityId);
 				}
 				if(activities.size() > 2)
 				{
+					System.out.println(TAG + " getActivity() :- " + activities.size());
 					return new ContainerActivity(activityId,activities,containerActvtyRef._sequence); 
 				}
 				else if(activities.size() == 2)
 				{
+					System.out.println(TAG + " getActivity() :- " + activities.size());
 					return new ContainerActivity(activityId,activities.get(0),activities.get(1),containerActvtyRef._sequence);
 				}
 			}
@@ -197,6 +201,26 @@ public final class ModelFactory {
 				}
 				else if(activityId.equals("FINGERTAPPING")){
 					
+					vo = __theDAO.getFingerTapping(activityId, patientPIN);
+					String patientType = (String) vo.getAttribute("type");
+					System.out.println(TAG + " getActivity() :- " + "PatientType = "+patientType);
+					return new FingerTapping(activityId, patientType);
+					
+				}else if(activityId.equals("SPATIALSPAN")){
+					vo = __theDAO.getSpatialSpan(activityId, patientPIN);
+					String patientType = (String) vo.getAttribute("type");
+					System.out.println(TAG + " getActivity() :- " + "PatientType = "+patientType);
+					return new SpatialSpan(activityId);
+					
+				}else if(activityId.equals("FLANKER")){
+					vo = __theDAO.getFlanker(activityId, patientPIN);
+					String patientType = (String) vo.getAttribute("type");
+					System.out.println(TAG + " getActivity() :- " + "PatientType = "+patientType);
+					return new Flanker(activityId);
+					
+				}else if(activityId.equals("PATTERNCOMPARISION")){
+					
+										
 				}
 				else
 				{
@@ -210,6 +234,9 @@ public final class ModelFactory {
 			e.printStackTrace();
 			throw new ModelException("Unable to create model obj");
 			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
 		return null;
 	}

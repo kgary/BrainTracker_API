@@ -93,7 +93,16 @@ public interface DAO {
 	public default ValueObject getTrialDuration(String trialName) throws SQLException,DAOException{
 		return null;
 	}
-	public default ValueObject getFingerTapping(String activityID) throws SQLException,DAOException{
+	public default ValueObject getFingerTapping(String activityID, String patientPIN) throws SQLException,DAOException{
+		return null;
+	}
+	public default ValueObject getSpatialSpan(String activityID, String patientPIN) throws SQLException,DAOException{
+		return null;
+	}
+	public default ValueObject getFlanker(String activityID, String patientPIN) throws SQLException,DAOException{
+		return null;
+	}
+	public default ValueObject getPatternComparision(String activityID, String patientPIN) throws SQLException,DAOException{
 		return null;
 	}
 }

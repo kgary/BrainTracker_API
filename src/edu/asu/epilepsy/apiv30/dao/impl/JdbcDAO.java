@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
@@ -32,6 +33,7 @@ import edu.asu.epilepsy.apiv30.model.MedicalAdherence;
 import edu.asu.epilepsy.apiv30.model.ModelFactory;
 import edu.asu.epilepsy.apiv30.model.Patient;
 import edu.asu.epilepsy.apiv30.model.PostActivity;
+import edu.asu.epilepsy.apiv30.model.PostFingerTapping;
 import edu.asu.epilepsy.apiv30.model.PostPainIntensity;
 import edu.asu.epilepsy.apiv30.model.PostPromisSurvey;
 import edu.asu.epilepsy.apiv30.model.Question;
@@ -45,6 +47,7 @@ import edu.asu.epilepsy.apiv30.model.PostPromisSurvey.OptionToValue;
 import edu.asu.epilepsy.apiv30.model.Question.Type;
 
 public abstract class JdbcDAO implements DAO {
+	private static final String TAG = JdbcDAO.class.getSimpleName();
 	static Logger log = LogManager.getLogger(JdbcDAO.class);
 	private String __jdbcDriver;
 	protected String _jdbcUser;
@@ -537,7 +540,7 @@ public abstract class JdbcDAO implements DAO {
                             connection.rollback();
                             throw e;
                         }
-                    }
+                    } 
                     else if(activity.getActivityId().equals("CAT")|| activity.getActivityId().equals("MA") ||activity.getActivityId().equals("PR_Anxiety") || activity.getActivityId().equals("PR_Fatigue")|| activity.getActivityId().equals("PR_PainInt") || activity.getActivityId().equals("PR_PhysFuncMob"))
                     {
                         PostPromisSurvey promisSurvey = (PostPromisSurvey) activity;
@@ -570,6 +573,49 @@ public abstract class JdbcDAO implements DAO {
                                 }
                         	}
                             
+                        }
+                    }
+                    else if(activity.getActivityId().equals("FINGERTAPPING")){
+                    	query = DAOFactory.getDAOProperties().getProperty("sql.fingerTappingSubmit");
+                    	ps = connection.prepareStatement(query);
+                    	PostFingerTapping postFingerTapping = (PostFingerTapping) activity;
+                    	userSubmissionTime = postFingerTapping.get_userSubmittedTimeStamp();
+                        activityInstanceId = postFingerTapping.getActivityInstanceId();
+                        int patientPin = postFingerTapping.getPatientPin();
+                        int timeToTap = postFingerTapping.getTimeToTap();
+                        int timeToComplete = postFingerTapping.getTimeToComplete();
+                        float screenWidth = postFingerTapping.getScreenWidth();
+                        float screenHeight = postFingerTapping.getScreenHeight();
+                        HashMap<String, Integer> fingertappingResult = postFingerTapping.getResults();
+                        JSONObject handObject = new JSONObject();
+                        for (Map.Entry<String, Integer> item: fingertappingResult.entrySet()){
+                        	String hand = item.getKey();
+                        	int value = item.getValue();
+                        	handObject.put(hand, value);
+                        }
+                        String fingerTappingResult = handObject.toJSONString();
+                    	System.out.println(TAG + " postActivityInstances() :- " + handObject.toJSONString());
+                    	
+
+                    	try 
+                        {	ps.setInt(1, patientPin);
+                    		ps.setInt(2,activityInstanceId);
+                        	ps.setInt(3, timeToTap);
+                        	ps.setFloat(4,screenHeight);
+                        	ps.setFloat(5,screenWidth);
+                        	ps.setTimestamp(6, userSubmissionTime);
+                        	ps.setString(7, fingerTappingResult);
+                        	ps.setInt(8, timeToComplete);
+                        	
+                        	ps.addBatch();
+                        } 
+                        catch(Exception e)
+                        {
+                            e.printStackTrace();
+                            if(ps != null)
+                                ps.close();
+                            connection.rollback();
+                            throw e;
                         }
                     }
                 }
@@ -1307,6 +1353,179 @@ public abstract class JdbcDAO implements DAO {
 				}
 			}
 			return vo;
+		}
+
+		@Override
+		public ValueObject getFingerTapping(String activityID, String patientPIN) throws SQLException, DAOException {
+			// TODO Auto-generated method stub
+			ValueObject vo = new ValueObject(); // need to fill this up
+			Connection connection = getConnection();
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			String patientType = null;
+			try{
+				//Need to get the surveyBlockType from patients table
+				String patientQuery = DAOFactory.getDAOProperties().getProperty("sql.patientType");
+				ps = connection.prepareStatement(patientQuery);
+				ps.setString(1, patientPIN);
+				rs = ps.executeQuery();
+				if(rs.next())
+				{
+					patientType =  rs.getString("type");
+					
+				}
+				System.out.println(TAG + " getFingerTapping :- " + "PatientType = " +patientType);
+				vo.putAttribute("type", patientType);
+				rs.close();
+				ps.close();
+			}
+			catch(Throwable t) {
+				t.printStackTrace();
+				throw new DAOException("Unable to process results from query sql.actvty");
+			}
+			finally{try {
+				if (rs != null) rs.close();
+				if (ps != null) ps.close();
+				if (connection != null) connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+				// YYY need a logging facility, but this does not have to be rethrown
+				log.error(se);
+			}
+			}
+			
+			
+			return vo;
+		}
+
+		@Override
+		public ValueObject getSpatialSpan(String activityID, String patientPIN) throws SQLException, DAOException {
+			// TODO Auto-generated method stub
+						ValueObject vo = new ValueObject(); // need to fill this up
+						Connection connection = getConnection();
+						PreparedStatement ps = null;
+						ResultSet rs = null;
+						String patientType = null;
+						try{
+							//Need to get the surveyBlockType from patients table
+							String patientQuery = DAOFactory.getDAOProperties().getProperty("sql.patientType");
+							ps = connection.prepareStatement(patientQuery);
+							ps.setString(1, patientPIN);
+							rs = ps.executeQuery();
+							if(rs.next())
+							{
+								patientType =  rs.getString("type");
+								
+							}
+							System.out.println(TAG + " getSpatialSpan() :- " + "PatientType = " +patientType);
+							vo.putAttribute("type", patientType);
+							rs.close();
+							ps.close();
+						}
+						catch(Throwable t) {
+							t.printStackTrace();
+							throw new DAOException("Unable to process results from query sql.actvty");
+						}
+						finally{try {
+							if (rs != null) rs.close();
+							if (ps != null) ps.close();
+							if (connection != null) connection.close();
+						} catch (SQLException se) {
+							se.printStackTrace();
+							// YYY need a logging facility, but this does not have to be rethrown
+							log.error(se);
+						}
+						}
+						
+						
+						return vo;
+		}
+
+		@Override
+		public ValueObject getFlanker(String activityID, String patientPIN) throws SQLException, DAOException {
+			// TODO Auto-generated method stub
+						ValueObject vo = new ValueObject(); // need to fill this up
+						Connection connection = getConnection();
+						PreparedStatement ps = null;
+						ResultSet rs = null;
+						String patientType = null;
+						try{
+							//Need to get the surveyBlockType from patients table
+							String patientQuery = DAOFactory.getDAOProperties().getProperty("sql.patientType");
+							ps = connection.prepareStatement(patientQuery);
+							ps.setString(1, patientPIN);
+							rs = ps.executeQuery();
+							if(rs.next())
+							{
+								patientType =  rs.getString("type");
+								
+							}
+							System.out.println(TAG + " getFlanker() :- " + "PatientType = " +patientType);
+							vo.putAttribute("type", patientType);
+							rs.close();
+							ps.close();
+						}
+						catch(Throwable t) {
+							t.printStackTrace();
+							throw new DAOException("Unable to process results from query sql.actvty");
+						}
+						finally{try {
+							if (rs != null) rs.close();
+							if (ps != null) ps.close();
+							if (connection != null) connection.close();
+						} catch (SQLException se) {
+							se.printStackTrace();
+							// YYY need a logging facility, but this does not have to be rethrown
+							log.error(se);
+						}
+						}
+						
+						
+						return vo;
+		}
+
+		@Override
+		public ValueObject getPatternComparision(String activityID, String patientPIN)
+				throws SQLException, DAOException {
+			// TODO Auto-generated method stub
+						ValueObject vo = new ValueObject(); // need to fill this up
+						Connection connection = getConnection();
+						PreparedStatement ps = null;
+						ResultSet rs = null;
+						String patientType = null;
+						try{
+							//Need to get the surveyBlockType from patients table
+							String patientQuery = DAOFactory.getDAOProperties().getProperty("sql.patientType");
+							ps = connection.prepareStatement(patientQuery);
+							ps.setString(1, patientPIN);
+							rs = ps.executeQuery();
+							if(rs.next())
+							{
+								patientType =  rs.getString("type");
+								
+							}
+							System.out.println(TAG + " getPatternComparision() :- " + "PatientType = " +patientType);
+							vo.putAttribute("type", patientType);
+							rs.close();
+							ps.close();
+						}
+						catch(Throwable t) {
+							t.printStackTrace();
+							throw new DAOException("Unable to process results from query sql.actvty");
+						}
+						finally{try {
+							if (rs != null) rs.close();
+							if (ps != null) ps.close();
+							if (connection != null) connection.close();
+						} catch (SQLException se) {
+							se.printStackTrace();
+							// YYY need a logging facility, but this does not have to be rethrown
+							log.error(se);
+						}
+						}
+						
+						
+						return vo;
 		}
 
 		

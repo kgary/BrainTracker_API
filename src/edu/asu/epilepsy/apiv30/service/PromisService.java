@@ -34,6 +34,7 @@ import edu.asu.epilepsy.apiv30.model.ModelException;
 import edu.asu.epilepsy.apiv30.model.ModelFactory;
 import edu.asu.epilepsy.apiv30.model.Patient;
 import edu.asu.epilepsy.apiv30.model.PostActivity;
+import edu.asu.epilepsy.apiv30.model.PostFingerTapping;
 import edu.asu.epilepsy.apiv30.model.PostPainIntensity;
 import edu.asu.epilepsy.apiv30.model.PostPromisSurvey;
 import edu.asu.epilepsy.apiv30.model.QuestionOption;
@@ -43,6 +44,7 @@ import edu.asu.epilepsy.apiv30.model.Patient.Trial;
 import edu.asu.epilepsy.apiv30.model.Patient.medicationInfo;
 public class PromisService {
 	
+	private static final String TAG = PromisService.class.getSimpleName();
 	//ToDo Can handle this better by doing it dynamically without hardcoding and getting values from the database and checking if they are of that particular type.
 	public static int otherOption = 67;
 	//public static int maDosageQuestion = 75;
@@ -124,13 +126,14 @@ public class PromisService {
     	        	{
     	        		boolean state = __modelFactory.changeActivityInsState(Integer.parseInt(activityInstanceId), "in progress");
     			        String json_sequence = activityInstance.getSequence();
-    			        System.out.println(json_sequence);
     			        JSONParser parser = new JSONParser();
     			        JSONObject jsonObject = (JSONObject) parser.parse(json_sequence);
     			        JSONArray sequenceArray=(JSONArray)jsonObject.get("sequence");
     			        String activityId = (String)jsonObject.get("parentactivity");
     			        Activity activity = __modelFactory.getActivity(activityId,pin);
-    			        //String act=activity.generateJSON().toString().replace("\\","");
+    			        System.out.println(TAG + " getActivityInstance() :- " + activity);
+    			        String act=activity.generateJSON().toString();
+    			        System.out.println(TAG + " getActivityInstance() :- " + act);
     			        intervention=parser.parse(activity.generateJSON().toString().replace("\\","")); 
     			        
     			        if(intervention instanceof JSONArray)
@@ -242,8 +245,10 @@ public class PromisService {
     			log.error("Error: The JSON is invalid" );
     			throw new NotFoundException(Response.Status.INTERNAL_SERVER_ERROR,JsonErrorMessage);
         	}
-    		int activityInstanceId = Integer.parseInt(json.get("activityInstanceID").toString()); 
+    		int activityInstanceId = Integer.parseInt(json.get("activityInstanceID").toString());
+    		System.out.println(TAG + " submitActivityInstance() :- " + "ActivityInstanceID - " + activityInsId);
     		Timestamp timeStamp = new Timestamp((long)json.get("timeStamp"));
+    		System.out.println(TAG + " submitActivityInstance() :- " + "timestamp - "+timestamp);
     		if(activityInstanceId==Integer.parseInt(activityInsId))
     		{
             ActivityInstance activityInstance = __modelFactory.getActivityInstance(Integer.toString(activityInstanceId));
@@ -270,6 +275,7 @@ public class PromisService {
             	}
             	else if(activityInstance.getState().equals("pending")|| activityInstance.getState().equals("in progress"))
             	{
+            		System.out.println(TAG + " submitActivityInstance() :- " + "Activity Instance needs to be added to databse");
     				JSONArray question_results=(JSONArray)json.get("activityResults");
     				for(int i=0;i<question_results.size();i++)
     				{
@@ -316,7 +322,36 @@ public class PromisService {
     							PostPainIntensity postPainIntensity = new PostPainIntensity(activityType,questionIDs,activityInstanceId,timeStamp,questionOptionLocation,questionOptionIntensity,questOptionGeneralizedPain);
     							questionResult.add(postPainIntensity);
     						}			
+    					}else if(activityType.equals("FINGERTAPPING")){
+    						System.out.println(TAG + " submitActivityInstance() :- " + "Called");
+    						int screenWidth = Integer.parseInt(result.get("screenWidth").toString());
+    						int screenHeight = Integer.parseInt(result.get("screenHeight").toString());
+    						int timeToTap = Integer.parseInt(result.get("timeToTap").toString());
+    						int timeTakenToComplete = Integer.parseInt(result.get("timeTakenToComplete").toString());
+    						
+    						System.out.println(TAG + " submitActivityInstance() :- ScreenHeight=" + screenHeight);
+    						System.out.println(TAG + " submitActivityInstance() :- ScreenWidth=" + screenWidth);
+    						System.out.println(TAG + " submitActivityInstance() :- Time TO Tap =" + timeToTap);
+    						JSONArray answers =(JSONArray) result.get("answers");
+    						HashMap<String, Integer> fingerTappingResult = new HashMap<>();
+    						for(int j=0;j<answers.size();j++)
+    						{
+    							JSONObject answerInstance=(JSONObject) answers.get(j);
+    							String operatingHand = answerInstance.get("operatingHand").toString();
+    							int tapNumber = Integer.parseInt( answerInstance.get("tapNumber").toString());
+    							fingerTappingResult.put(operatingHand,tapNumber);
+    						}
+    						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult, timeToTap, screenWidth, screenHeight,timeTakenToComplete,timeStamp,Integer.parseInt(pin));
+    						questionResult.add(postFingerTapping);
+    						
+    					}else if(activityType.equals("SPATIALSPAN")){
+    						
+    					}else if(activityType.equals("FLANKER")){
+    						
+    					}else if(activityType.equals("PATTERNCOMPARISION")){
+    						
     					}
+    					
     					else
     					{
     						JSONArray answers =(JSONArray) result.get("answers");
@@ -379,8 +414,6 @@ public class PromisService {
     	    			log.info("Survey_instance could not posted");
     	    			throw new NotFoundException(Response.Status.INTERNAL_SERVER_ERROR,JsonErrorMessage); 
     			    }
-    		
-    		    	
             	}
             	else
             	{
