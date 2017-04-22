@@ -19,6 +19,7 @@ import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -744,18 +745,26 @@ public abstract class JdbcDAO implements DAO {
         	JSONObject actvtMetaData = new JSONObject();
         	actvtMetaData = (JSONObject) new JSONParser().parse(metaData);
         	String typeOfActivity = (String)actvtMetaData.get("typeoFActivity");
-        	System.out.println("The activity id is::"+typeOfActivity);
-	      
+        	System.out.println(TAG + " createActivityInstance() :- " + sequence);
+        	
+        	
             if(typeOfActivity.equalsIgnoreCase("Weekly")){
-              //Setting the title and description.
-                title = DAOFactory.getDAOProperties().getProperty("sickle.weekly.title");
-                description = DAOFactory.getDAOProperties().getProperty("sickle.weekly.description");
+                title = DAOFactory.getDAOProperties().getProperty("epilepsy.weekly.title");
+                description = DAOFactory.getDAOProperties().getProperty("epilepsy.weekly.description");
             }
             else if(typeOfActivity.equalsIgnoreCase("Daily")){
                 //Setting the title and description.
-                title = DAOFactory.getDAOProperties().getProperty("sickle.daily.title");
-                description = DAOFactory.getDAOProperties().getProperty("sickle.daily.description");
+                title = DAOFactory.getDAOProperties().getProperty("epilepsy.daily.title");
+                description = DAOFactory.getDAOProperties().getProperty("epilepsy.daily.description");
             }
+
+        	System.out.println(TAG + " createActivityInstance() :- startTimestamp" +startTimestamp);
+        	System.out.println(TAG + " createActivityInstance() :- endTimestamp" +endTimestamp);
+        	System.out.println(TAG + " createActivityInstance() :- patientPIN" +patientPIN);
+        	System.out.println(TAG + " createActivityInstance() :- sequence" +sequence);
+        	System.out.println(TAG + " createActivityInstance() :- title" +title);
+        	System.out.println(TAG + " createActivityInstance() :- description" +description);
+
 				ps.setTimestamp(1,startTimestamp);
 				ps.setTimestamp(2,endTimestamp);
 				ps.setString(3, "pending");

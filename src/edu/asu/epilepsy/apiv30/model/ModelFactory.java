@@ -218,8 +218,11 @@ public final class ModelFactory {
 					System.out.println(TAG + " getActivity() :- " + "PatientType = "+patientType);
 					return new Flanker(activityId);
 					
-				}else if(activityId.equals("PATTERNCOMPARISION")){
-					
+				}else if(activityId.equals("PATTERNCOMPARISON")){
+					vo = __theDAO.getPatternComparision(activityId, patientPIN);
+					String patientType = (String) vo.getAttribute("type");
+					System.out.println(TAG + " getActivity() :- Patient Type = " + patientType);
+					return new PatternComparision(activityId);
 										
 				}
 				else

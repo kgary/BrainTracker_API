@@ -39,6 +39,7 @@ import edu.asu.epilepsy.apiv30.model.PostPainIntensity;
 import edu.asu.epilepsy.apiv30.model.PostPromisSurvey;
 import edu.asu.epilepsy.apiv30.model.QuestionOption;
 import edu.asu.epilepsy.apiv30.model.UILogger;
+import jdk.nashorn.internal.scripts.JS;
 import edu.asu.epilepsy.apiv30.model.Patient.PatientEnroll;
 import edu.asu.epilepsy.apiv30.model.Patient.Trial;
 import edu.asu.epilepsy.apiv30.model.Patient.medicationInfo;
@@ -216,8 +217,14 @@ public class PromisService {
                 act.put("activityTitle", activityInstance.getActivityTitle());
                 act.put("description",activityInstance.getDescription());
                 act.put("state", activityInstance.getState());
+                JSONObject obj = (JSONObject) new JSONParser().parse(activityInstance.getSequence());
+                JSONArray arr = (JSONArray) obj.get("sequence");
+                
+                act.put("sequence", arr);
+                
                 activitySeqArray.add(act);
             }
+            System.out.println(TAG + " checkActivityInstance() :- " + activitySeqArray.toJSONString());
             JSONObject reply = new JSONObject();
             reply.put("message", "SUCCESS");
             reply.put("activities", activitySeqArray);
@@ -472,6 +479,7 @@ public class PromisService {
             if(activity != null)
             {
     	        String sequence = __modelFactory.generateSequence(activity);
+    	        System.out.println(TAG + " cronJob() :- " + sequence);
     			String seq_array[] = sequence.split(",");
     	        JSONArray activitySeqArray = new JSONArray();
     	        for (String activity_seq : seq_array)
@@ -488,6 +496,7 @@ public class PromisService {
     	        if((String)json.get("starttime") == null && (String)json.get("endtime") == null) //If the user does not provide the start and end time,we take the default from the metadata.
     	        {
     	        	String metaData = __modelFactory.getActivityMetaData(activityId);
+    	        	System.out.println(TAG + " cronJob() :- " + metaData); 	
     	        	JSONObject actvtMetaData = new JSONObject();
     	        	actvtMetaData = (JSONObject) parser.parse(metaData);
     	        	JSONObject duration = (JSONObject)actvtMetaData.get("defaulttime");
@@ -495,6 +504,7 @@ public class PromisService {
     	        	int durations =  Integer.parseInt((String)duration.get("duration"));
     	        	String unit = (String)duration.get("units");
     	        	ArrayList<String> startandEndTime = computeStartandEndTime(activityId,durations,0);
+    	        	System.out.println(TAG + " cronJob() :- startandend" + startandEndTime.toString());
     	        	startTime= startandEndTime.get(0); //The first index is the start time
     	        	endTime = startandEndTime.get(1); // The second index is the end time.
     	        }
@@ -505,21 +515,29 @@ public class PromisService {
     	        }
     	        
     	        String trial = (String)json.get("trial_type");
+    	        System.out.println(TAG + " cronJob() :- trial = " + trial);
     	        Trial trial_type = null;
+    	        System.out.println(TAG + " cronJob() :- " + Trial.values());
+
+    	        System.out.println(TAG + " timestamp :- timestamp "+ timeStamp + " " + startTime);
     	        if(timeStamp.compareTo(startTime)>=0)
     	        {
+    	           System.out.println(TAG + " cronJob() :- Invalid Start TIme");
      	    	   String JsonErrorMessage = mapper.writeValueAsString(new ErrorMessage("Invalid StartTime."));
      				log.info("Invalid StartTime.");
      				throw new NotFoundException(Response.Status.BAD_REQUEST,JsonErrorMessage);
      	       }
+    	        System.out.println(TAG + " cronJob() :- " + endTime +  " " + startTime);
     	        if(endTime.compareTo(startTime)<=0)
     	        {
+     	           System.out.println(TAG + " cronJob() :- Invalid EndTime.");
      	    	   String JsonErrorMessage = mapper.writeValueAsString(new ErrorMessage("Invalid EndTime."));
      				log.info("Invalid EndTime.");
      				throw new NotFoundException(Response.Status.BAD_REQUEST,JsonErrorMessage);
      	       }
     	        for (Trial type : Trial.values())
     	        {
+    	        	System.out.println(TAG + " cronJob() :- type.name() = " + "trial");
     	        	if(type.name().equals(trial))
     	        	{
     	        		trial_type= type;
@@ -528,12 +546,23 @@ public class PromisService {
     	        	
     	        }
     	       if(trial_type == null)
-    	       {
+    	       {	System.out.println(TAG + " cronJob() :- " + "Trial not exists");
     	    	   String JsonErrorMessage = mapper.writeValueAsString(new ErrorMessage("The trial type does not exists"));
     				log.info("The trial type does not exists");
     				throw new NotFoundException(Response.Status.NOT_FOUND,JsonErrorMessage);
     	       }
     	        JSONObject reply = new JSONObject();
+    	        System.out.println(TAG + " cronJob() :- Sequence = " +sequence);
+    	        System.out.println(TAG + " cronJob() :- pin = " +pin);
+
+    	        System.out.println(TAG + " cronJob() :- trial_type = " +trial_type);
+
+    	        System.out.println(TAG + " cronJob() :- startTime = " +startTime);
+
+    	        System.out.println(TAG + " cronJob() :- endTime = " +endTime);
+
+    	        System.out.println(TAG + " cronJob() :- activityId = " +activityId);
+
     	        if(__modelFactory.createActivityInstance(sequence,pin,trial_type,startTime,endTime,activityId))
     	        	reply.put("message", "SUCCESS");
     	        else
@@ -765,7 +794,7 @@ public class PromisService {
 			 * So endTime of 04:49:00 in the next day in GMT will be 23:59:00 in EST the previous night.
 			 * We are adding an additional day for compensating for the time window difference. 
 			 */
-			System.out.println("EndTime being calculated");
+			System.out.println(TAG + " computeStartandEndTime() :- EndTime being calculated");
 			cal.clear(); //Clearing the previous calendar
 			Date StartTime = df.parse(startTime);
 			cal.setTime(StartTime);

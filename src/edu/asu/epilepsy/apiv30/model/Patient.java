@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Patient {
 	
 	public enum Trial{
-		SICKLE_CELL,ORTHO_POST_OP,PAIN_POST_OP
+		SICKLE_CELL,ORTHO_POST_OP,PAIN_POST_OP,EPILEPSY
 	}
 	
 	public enum PatientType{
