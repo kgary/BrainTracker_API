@@ -23,6 +23,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.sun.awt.SecurityWarning;
+
 import edu.asu.epilepsy.apiv30.dao.DAO;
 import edu.asu.epilepsy.apiv30.dao.DAOException;
 import edu.asu.epilepsy.apiv30.dao.DAOFactory;
@@ -35,8 +37,11 @@ import edu.asu.epilepsy.apiv30.model.ModelFactory;
 import edu.asu.epilepsy.apiv30.model.Patient;
 import edu.asu.epilepsy.apiv30.model.PostActivity;
 import edu.asu.epilepsy.apiv30.model.PostFingerTapping;
+import edu.asu.epilepsy.apiv30.model.PostFlanker;
 import edu.asu.epilepsy.apiv30.model.PostPainIntensity;
+import edu.asu.epilepsy.apiv30.model.PostPatternComparison;
 import edu.asu.epilepsy.apiv30.model.PostPromisSurvey;
+import edu.asu.epilepsy.apiv30.model.PostSpatialSpan;
 import edu.asu.epilepsy.apiv30.model.Question;
 import edu.asu.epilepsy.apiv30.model.QuestionOption;
 import edu.asu.epilepsy.apiv30.model.UILogger;
@@ -596,10 +601,10 @@ public abstract class JdbcDAO implements DAO {
                         }
                         String fingerTappingResult = handObject.toJSONString();
                     	System.out.println(TAG + " postActivityInstances() :- " + handObject.toJSONString());
-                    	
 
                     	try 
-                        {	ps.setInt(1, patientPin);
+                        {
+                    		ps.setInt(1, patientPin);
                     		ps.setInt(2,activityInstanceId);
                         	ps.setInt(3, timeToTap);
                         	ps.setFloat(4,screenHeight);
@@ -607,9 +612,9 @@ public abstract class JdbcDAO implements DAO {
                         	ps.setTimestamp(6, userSubmissionTime);
                         	ps.setString(7, fingerTappingResult);
                         	ps.setInt(8, timeToComplete);
-                        	
                         	ps.addBatch();
                         } 
+                    	
                         catch(Exception e)
                         {
                             e.printStackTrace();
@@ -618,12 +623,122 @@ public abstract class JdbcDAO implements DAO {
                             connection.rollback();
                             throw e;
                         }
+                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+
+                    }
+                    else if(activity.getActivityId().equals("FLANKER")){
+                    	query = DAOFactory.getDAOProperties().getProperty("sql.flankerSubmit");
+                    	ps = connection.prepareStatement(query);
+                    	PostFlanker postFlanker = (PostFlanker) activity;
+                    	userSubmissionTime = postFlanker.get_userSubmittedTimeStamp();
+                    	activityInstanceId = postFlanker.getActivityInstanceId();
+                    	int patientPin = postFlanker.getPatientPin();
+                        int timeToComplete = postFlanker.getTotalTimeTaken();
+                        int screenWidth = (int) postFlanker.getScreenWidth();
+                        int screenHeight = (int) postFlanker.getScreenHeight();
+                        ArrayList<String> results = postFlanker.getResults();
+                        String resultToSubmit = results.toString();
+                        
+                        try 
+                        {
+                    		ps.setInt(1, patientPin);
+                    		ps.setInt(2,activityInstanceId);
+                        	ps.setInt(3, timeToComplete);
+                        	ps.setFloat(4,screenHeight);
+                        	ps.setFloat(5,screenWidth);
+                        	ps.setTimestamp(6, userSubmissionTime);
+                        	ps.setString(7, resultToSubmit);
+                        	ps.addBatch();
+                        } 
+                    	
+                        catch(Exception e)
+                        {
+                            e.printStackTrace();
+                            if(ps != null)
+                                ps.close();
+                            connection.rollback();
+                            throw e;
+                        }
+                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+
+                        
+                    }else if(activity.getActivityId().equals("PATTERNCOMPARISON")){
+                    	query = DAOFactory.getDAOProperties().getProperty("sql.patternComparisonSubmit");
+                    	ps = connection.prepareStatement(query);
+                    	PostPatternComparison postPatternComparison = (PostPatternComparison) activity;
+                    	userSubmissionTime = postPatternComparison.get_userSubmittedTimeStamp();
+                    	activityInstanceId = postPatternComparison.getActivityInstanceId();
+                    	int patientPin = postPatternComparison.getPatientPin();
+                        int timeToComplete = postPatternComparison.getTotalTimeTaken();
+                        int screenWidth = (int) postPatternComparison.getScreenWidth();
+                        int screenHeight = (int) postPatternComparison.getScreenHeight();
+                        ArrayList<String> results = postPatternComparison.getResults();
+                        String resultToSubmit = results.toString();
+                        
+                        try 
+                        {
+                    		ps.setInt(1, patientPin);
+                    		ps.setInt(2,activityInstanceId);
+                        	ps.setInt(3, timeToComplete);
+                        	ps.setFloat(4,screenHeight);
+                        	ps.setFloat(5,screenWidth);
+                        	ps.setTimestamp(6, userSubmissionTime);
+                        	ps.setString(7, resultToSubmit);
+                        	ps.addBatch();
+                        } 
+                    	
+                        catch(Exception e)
+                        {
+                            e.printStackTrace();
+                            if(ps != null)
+                                ps.close();
+                            connection.rollback();
+                            throw e;
+                        }
+                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+                    	
+                    }else if(activity.getActivityId().equals("SPATIALSPAN")){
+                    	query = DAOFactory.getDAOProperties().getProperty("sql.spatialspansubmit");
+                    	ps = connection.prepareStatement(query);
+                    	PostSpatialSpan postSpatialSpan = (PostSpatialSpan) activity;
+                    	userSubmissionTime = postSpatialSpan.get_userSubmittedTimeStamp();
+                    	activityInstanceId = postSpatialSpan.getActivityInstanceId();
+                    	int patientPin = postSpatialSpan.getPatientPin();
+                        int timeToComplete = postSpatialSpan.getTotalTimeTaken();
+                        int screenWidth = (int) postSpatialSpan.getScreenWidth();
+                        int screenHeight = (int) postSpatialSpan.getScreenHeight();
+                        ArrayList<String> results = postSpatialSpan.getResults();
+                        String resultToSubmit = results.toString();
+                        
+                        try 
+                        {
+                    		ps.setInt(1, patientPin);
+                    		ps.setInt(2,activityInstanceId);
+                        	ps.setInt(3, timeToComplete);
+                        	ps.setFloat(4,screenHeight);
+                        	ps.setFloat(5,screenWidth);
+                        	ps.setTimestamp(6, userSubmissionTime);
+                        	ps.setString(7, resultToSubmit);
+                        	ps.addBatch();
+                        } 
+                    	
+                        catch(Exception e)
+                        {
+                            e.printStackTrace();
+                            if(ps != null)
+                                ps.close();
+                            connection.rollback();
+                            throw e;
+                        }
+                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+                    	
                     }
                 }
                 
-                int[] executeResult = ps.executeBatch();
+                int[] executeResult = ps.executeBatch();;
+
                 ps.close();
-                //If the Question Result Table is not inserted then we have to abort the transaction. 
+//                If the Question Result Table is not inserted then we have to abort the transaction. 
                 
                 if(executeResult.length <= 0 || (executeResult.length > 0 && executeResult[0] < 0))
                 {
@@ -635,15 +750,20 @@ public abstract class JdbcDAO implements DAO {
                 ps = null;
                 Date date = new Date();
                 Timestamp currentTime = new Timestamp(date.getTime());
+                
                 try
                 {
                     query = DAOFactory.getDAOProperties().getProperty("sql.subSurvyActvyIns"); 
                     ps = connection.prepareStatement(query);
                     ps.setTimestamp(1,userSubmissionTime);
                     ps.setTimestamp(2,currentTime);
-                    ps.setString(3,"completed");
-                    ps.setInt(4,activityInstanceId);
+                    if(checkIfActivitySequenceIsFinished(activityInstanceId)){
+                    	ps.setString(3,"completed");
+                    }else{
+                    	ps.setString(3,"in progress");
+                    }
                     
+                    ps.setInt(4,activityInstanceId);    
                     updateCount = ps.executeUpdate();
                     ps.close();
                 }
@@ -682,6 +802,104 @@ public abstract class JdbcDAO implements DAO {
         vo.putAttribute("result",(updateCount>0) ? true:false);
         return vo;
     }
+	private boolean checkIfActivitySequenceIsFinished(int activityInstanceId) throws DAOException {
+		// TODO Auto-generated method stub
+		Connection connection = getConnection();
+		PreparedStatement ps = null ;
+		ResultSet rs = null;
+		
+		try{
+			String query = DAOFactory.getDAOProperties().getProperty("sql.getActivityInstance");
+			ps = connection.prepareStatement(query);
+			ps.setInt(1, activityInstanceId);
+			rs = ps.executeQuery();
+			boolean isCompleted;
+			if(rs.next()){
+				JSONObject obj = (JSONObject) new JSONParser().parse(rs.getString("Sequence"));
+				JSONArray seq = (JSONArray) obj.get("sequence");
+				if(!seq.contains("FLANKER") && !seq.contains("PATTERNCOMPARISON") &&!seq.contains("FINGERTAPPING") &&!seq.contains("SPATIALSPAN")){
+						return true;
+					
+				}
+				
+			}
+		}catch (Throwable t) {
+			t.printStackTrace();
+			
+			throw new DAOException("Unable to Modify Activity Instance");
+		}
+		return false;
+		
+	}
+
+	private void modifyActivityInstance(int activityInstanceId, int patientPin, String activityPassed) throws DAOException {
+		// TODO Auto-generated method stub
+		Connection connection = getConnection();
+		PreparedStatement ps = null ;
+		ResultSet rs = null;
+		try{
+			String query = DAOFactory.getDAOProperties().getProperty("sql.getActivityInstance");
+			ps = connection.prepareStatement(query);
+			ps.setInt(1, activityInstanceId);
+			rs = ps.executeQuery();
+			if(rs.next()){
+				System.out.println(TAG + " modifyActivityInstance() :- " + rs.getString("Sequence"));
+				JSONObject obj = (JSONObject) new JSONParser().parse(rs.getString("Sequence"));
+				JSONArray seq = (JSONArray) obj.get("sequence");
+				
+				ArrayList<String> tempList = new ArrayList<>();
+				ArrayList<String> tempListCompleted = new ArrayList<>();
+				if(!(seq.get(0).toString().equalsIgnoreCase(obj.get("parentactivity").toString()))){
+					JSONArray completed;
+					if(obj.containsKey("completed")){
+						completed = (JSONArray) obj.get("completed");
+						for(int i=0; i<completed.size() ; i++){
+							tempListCompleted.add(completed.get(i).toString());
+						}
+					}else{
+						completed = new JSONArray();
+					}
+					
+					for(int i=0; i<seq.size() ; i++){
+						String temp = seq.get(i).toString();
+						tempList.add(temp);
+					}
+					tempList.remove(activityPassed);
+					tempListCompleted.add(activityPassed);
+					
+					JSONArray tempSeq = new JSONArray();
+					JSONArray tempCompleted = new JSONArray();
+					for(String seqItem : tempList){
+						tempSeq.add(seqItem);
+					}
+					for(String item: tempListCompleted){
+						tempCompleted.add(item);
+					}
+					seq = tempSeq;
+					completed = tempCompleted;
+					obj.put("sequence",seq);
+					obj.put("completed", completed);
+					String modifyQuery = DAOFactory.getDAOProperties().getProperty("sql.updateActivityInstance");
+					ps = connection.prepareStatement(modifyQuery);
+					String seqNew = obj.toString();
+					System.out.println(TAG + " modifyActivityInstance() :- " + seqNew);
+					ps.setString(1, seqNew);
+					ps.setInt(2, activityInstanceId);
+					System.out.println(TAG + " modifyActivityInstance() :- " + ps.toString());
+					ps.addBatch();
+					int[] result = ps.executeBatch();
+					
+				}
+				
+			}
+		} 
+		catch (Throwable t) {
+			t.printStackTrace();
+			
+			throw new DAOException("Unable to Modify Activity Instance");
+		}
+	}
+
 	@Override
 	public ValueObject getQuestionOptionByText(String questionOptionText) throws DAOException
 	{

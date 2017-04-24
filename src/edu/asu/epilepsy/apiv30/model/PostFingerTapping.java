@@ -14,7 +14,8 @@ public class PostFingerTapping extends PostActivity{
 	 private Timestamp _userSubmittedTimeStamp;
 
 	 
-	public PostFingerTapping(String activityId, int activityInstanceId, HashMap<String, Integer> results, int timeToTap, float screenWidth, float screenHeight,
+	public PostFingerTapping(String activityId, int activityInstanceId, 
+			HashMap<String, Integer> results, int timeToTap, float screenWidth, float screenHeight,
 			int timeToComplete, Timestamp userSubmittedTimeStamp,int patintPin) {
 		super();
 		this._activityId = activityId;

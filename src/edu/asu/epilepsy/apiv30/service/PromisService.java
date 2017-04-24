@@ -35,8 +35,11 @@ import edu.asu.epilepsy.apiv30.model.ModelFactory;
 import edu.asu.epilepsy.apiv30.model.Patient;
 import edu.asu.epilepsy.apiv30.model.PostActivity;
 import edu.asu.epilepsy.apiv30.model.PostFingerTapping;
+import edu.asu.epilepsy.apiv30.model.PostFlanker;
 import edu.asu.epilepsy.apiv30.model.PostPainIntensity;
+import edu.asu.epilepsy.apiv30.model.PostPatternComparison;
 import edu.asu.epilepsy.apiv30.model.PostPromisSurvey;
+import edu.asu.epilepsy.apiv30.model.PostSpatialSpan;
 import edu.asu.epilepsy.apiv30.model.QuestionOption;
 import edu.asu.epilepsy.apiv30.model.UILogger;
 import jdk.nashorn.internal.scripts.JS;
@@ -348,14 +351,71 @@ public class PromisService {
     							int tapNumber = Integer.parseInt( answerInstance.get("tapNumber").toString());
     							fingerTappingResult.put(operatingHand,tapNumber);
     						}
-    						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult, timeToTap, screenWidth, screenHeight,timeTakenToComplete,timeStamp,Integer.parseInt(pin));
+    						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult, 
+    								timeToTap, screenWidth, screenHeight,timeTakenToComplete,timeStamp,Integer.parseInt(pin));
     						questionResult.add(postFingerTapping);
     						
     					}else if(activityType.equals("SPATIALSPAN")){
+    						 int screenWidth =Integer.parseInt(result.get("screenWidth").toString());
+							 int screenHeight= Integer.parseInt(result.get("screenHeight").toString());;
+							 int timeToComplete = Integer.parseInt(result.get("timeTakenToComplete").toString());;
+							 System.out.println(TAG + " submitActivityInstance() :- ScreenHeight=" + screenHeight);
+							 System.out.println(TAG + " submitActivityInstance() :- ScreenWidth=" + screenWidth);
+							 System.out.println(TAG + " submitActivityInstance() :- Time taken to complete =" + timeToComplete);
+							 JSONArray answers =(JSONArray) result.get("answers");
+							 ArrayList<String> results = new ArrayList<String>();
+							 
+							 for(int j=0;j<answers.size();j++)
+	    						{
+								 JSONObject answerInstance=(JSONObject) answers.get(j);
+								 System.out.println(TAG + " submitActivityInstance() :- " + answerInstance.toJSONString());
+								 results.add(answerInstance.toJSONString());
+	    						}
+							PostSpatialSpan postSpatialSpan = new PostSpatialSpan(activityType, activityInstanceId, results, timeToComplete, screenWidth, screenHeight,
+									timeStamp, Integer.parseInt(pin));
+							questionResult.add(postSpatialSpan);
     						
     					}else if(activityType.equals("FLANKER")){
-    						
-    					}else if(activityType.equals("PATTERNCOMPARISION")){
+    						     
+							 int screenWidth =Integer.parseInt(result.get("screenWidth").toString());
+							 int screenHeight= Integer.parseInt(result.get("screenHeight").toString());;
+							 int timeToComplete = Integer.parseInt(result.get("timeTakenToComplete").toString());;
+							 System.out.println(TAG + " submitActivityInstance() :- ScreenHeight=" + screenHeight);
+							 System.out.println(TAG + " submitActivityInstance() :- ScreenWidth=" + screenWidth);
+							 System.out.println(TAG + " submitActivityInstance() :- Time taken to complete =" + timeToComplete);
+							 JSONArray answers =(JSONArray) result.get("answers");
+							 ArrayList<String> results = new ArrayList<String>();
+							 
+							 for(int j=0;j<answers.size();j++)
+	    						{
+								 JSONObject answerInstance=(JSONObject) answers.get(j);
+								 System.out.println(TAG + " submitActivityInstance() :- " + answerInstance.toJSONString());
+								 results.add(answerInstance.toJSONString());
+	    						}
+							PostFlanker postFlanker = new PostFlanker(activityType, activityInstanceId, results, timeToComplete, screenWidth, screenHeight,
+									timeStamp, Integer.parseInt(pin));
+							questionResult.add(postFlanker);
+							 
+;    					}else if(activityType.equals("PATTERNCOMPARISON")){
+	
+							int screenWidth =Integer.parseInt(result.get("screenWidth").toString());
+							 int screenHeight= Integer.parseInt(result.get("screenHeight").toString());;
+							 int timeToComplete = Integer.parseInt(result.get("timeTakenToComplete").toString());;
+							 System.out.println(TAG + " submitActivityInstance() :- ScreenHeight=" + screenHeight);
+							 System.out.println(TAG + " submitActivityInstance() :- ScreenWidth=" + screenWidth);
+							 System.out.println(TAG + " submitActivityInstance() :- Time taken to complete =" + timeToComplete);
+							 JSONArray answers =(JSONArray) result.get("answers");
+							 ArrayList<String> results = new ArrayList<String>();
+							 
+							 for(int j=0;j<answers.size();j++)
+								{
+								 JSONObject answerInstance=(JSONObject) answers.get(j);
+								 System.out.println(TAG + " submitActivityInstance() :- " + answerInstance.toJSONString());
+								 results.add(answerInstance.toJSONString());
+								}
+							PostPatternComparison postPatternComparison = new PostPatternComparison(activityType, activityInstanceId, results, timeToComplete, screenWidth, screenHeight,
+									timeStamp, Integer.parseInt(pin));
+							questionResult.add(postPatternComparison);
     						
     					}
     					
