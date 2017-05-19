@@ -623,7 +623,7 @@ public abstract class JdbcDAO implements DAO {
                             connection.rollback();
                             throw e;
                         }
-                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
 
                     }
                     else if(activity.getActivityId().equals("FLANKER")){
@@ -659,7 +659,7 @@ public abstract class JdbcDAO implements DAO {
                             connection.rollback();
                             throw e;
                         }
-                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
 
                         
                     }else if(activity.getActivityId().equals("PATTERNCOMPARISON")){
@@ -695,7 +695,7 @@ public abstract class JdbcDAO implements DAO {
                             connection.rollback();
                             throw e;
                         }
-                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
                     	
                     }else if(activity.getActivityId().equals("SPATIALSPAN")){
                     	query = DAOFactory.getDAOProperties().getProperty("sql.spatialspansubmit");
@@ -730,7 +730,7 @@ public abstract class JdbcDAO implements DAO {
                             connection.rollback();
                             throw e;
                         }
-                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
                     	
                     }
                 }
@@ -757,11 +757,11 @@ public abstract class JdbcDAO implements DAO {
                     ps = connection.prepareStatement(query);
                     ps.setTimestamp(1,userSubmissionTime);
                     ps.setTimestamp(2,currentTime);
-                    if(checkIfActivitySequenceIsFinished(activityInstanceId)){
+//                    if(checkIfActivitySequenceIsFinished(activityInstanceId)){
                     	ps.setString(3,"completed");
-                    }else{
-                    	ps.setString(3,"in progress");
-                    }
+//                    }else{
+//                    	ps.setString(3,"in progress");
+//                    }
                     
                     ps.setInt(4,activityInstanceId);    
                     updateCount = ps.executeUpdate();
