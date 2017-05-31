@@ -174,7 +174,7 @@ public final class ModelFactory {
 						throw new ModelException("Unable to create adaptive question obj");
 					}
 				}
-				else if(activityId.equals("PR_Anxiety") || activityId.equals("PR_Fatigue") || activityId.equals("PR_PainInt") || activityId.equals("PR_PhysFuncMob")) { 
+				else if(activityId.equalsIgnoreCase("PR_Anxiety") || activityId.equals("PR_Fatigue") || activityId.equals("PR_PainInt") || activityId.equals("PR_PhysFuncMob") || activityId.equals("PR_COGNITIVE") || activityId.equals("PR_DEPRESSIVE") || activityId.equals("PR_PEER_RELATIONSHIP")) { 
 					
 					vo = __theDAO.getPromisSurvey(activityId, patientPIN); //We are harcoding it as parent proxy for now,not sure whether we need to get it from the app or we should have our own logic from DB.
 					//Looping through the questions.
