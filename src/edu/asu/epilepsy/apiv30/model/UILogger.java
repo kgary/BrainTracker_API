@@ -4,48 +4,48 @@ import java.sql.Timestamp;
 
 public final class UILogger {
 
-	private String patientPin;
-	private String eventName;
-	private String metaData;
-	private Timestamp eventTime;
-	
-	public UILogger(String patientPin, String eventName, String metaData, Timestamp eventTime){
-		
-		this.patientPin = patientPin;
-		this.eventName = eventName;
-		this.metaData = metaData;
-		this.eventTime = eventTime;
-	}
+  private String patientPin;
+  private String eventName;
+  private String metaData;
+  private Timestamp eventTime;
 
-	public String getPatientPin() {
-		return patientPin;
-	}
+  public UILogger(String patientPin, String eventName, String metaData, Timestamp eventTime) {
 
-	public String getEventName() {
-		return eventName;
-	}
+    this.patientPin = patientPin;
+    this.eventName = eventName;
+    this.metaData = metaData;
+    this.eventTime = eventTime;
+  }
 
-	public String getMetaData() {
-		return metaData;
-	}
+  public String getPatientPin() {
+    return patientPin;
+  }
 
-	public Timestamp getEventTime() {
-		return eventTime;
-	}
+  public String getEventName() {
+    return eventName;
+  }
 
-	public void setPatientPin(String patientPin) {
-		this.patientPin = patientPin;
-	}
+  public String getMetaData() {
+    return metaData;
+  }
 
-	public void setEventName(String eventName) {
-		this.eventName = eventName;
-	}
+  public Timestamp getEventTime() {
+    return eventTime;
+  }
 
-	public void setMetaData(String metaData) {
-		this.metaData = metaData;
-	}
+  public void setPatientPin(String patientPin) {
+    this.patientPin = patientPin;
+  }
 
-	public void setEventTime(Timestamp eventTime) {
-		this.eventTime = eventTime;
-	}
+  public void setEventName(String eventName) {
+    this.eventName = eventName;
+  }
+
+  public void setMetaData(String metaData) {
+    this.metaData = metaData;
+  }
+
+  public void setEventTime(Timestamp eventTime) {
+    this.eventTime = eventTime;
+  }
 }

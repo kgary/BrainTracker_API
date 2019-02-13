@@ -1,44 +1,39 @@
 package edu.asu.epilepsy.apiv30.resource;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
+import edu.asu.epilepsy.apiv30.service.PromisService;
+
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import edu.asu.epilepsy.apiv30.service.PromisService;
 
 /**
  * An Activity represents both discrete tasks a Patient is asked to perform as part of a
  * protocol (or specifically, within a stage of the protocol), and combinations of these
- * tasks into high-order tasks that will be delivered together under some constraints or 
+ * tasks into high-order tasks that will be delivered together under some constraints or
  * schedule. An Activity is a template used to instantiate ActivityInstances.
- * @author kevinagary
  *
+ * @author kevinagary
  */
 @Path("/activity/")
 @Produces(MediaType.APPLICATION_JSON)
 public class Activity {
-	
-	PromisService promis_service = new PromisService();//-?|KG-review-080416|kevinagary|c0|
-	@POST
-	@Path("/scheduleactivity/")
-	public Response activityInstance(String content
-				) throws NumberFormatException, Exception
-    {
-    	
-		Response response=null;
-		String jsonstring=promis_service.cronJob(content);
-		response = Response.status(Response.Status.CREATED)
-					.entity(jsonstring).build();		
-		return response;
-    }
-	
+
+  PromisService promis_service = new PromisService();//-?|KG-review-080416|kevinagary|c0|
+
+  @POST
+  @Path("/scheduleactivity/")
+  public Response activityInstance(String content
+  ) throws NumberFormatException, Exception {
+
+    Response response = null;
+    String jsonstring = promis_service.cronJob(content);
+    response = Response.status(Response.Status.CREATED)
+      .entity(jsonstring).build();
+    return response;
+  }
+
 //
 //	@GET
 //	@Path("/checkactivity/{pin}")
