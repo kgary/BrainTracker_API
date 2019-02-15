@@ -1,24 +1,23 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 apply plugin: 'java'
 apply plugin: 'war'
 
 sourceSets{
   main{
     java{
-      srcDirs 'src/edu/asu/heal/promisapiv3/apiv30'
+      srcDirs 'src/edu/asu/epilepsy/apiv30'
+
     }
   }
 }
 
-task deploy1 (type: Copy, dependsOn: compileJava) {
-  from 'src/edu/asu/heal/promisapiv3/apiv30/dao/dao.properties'
-  into 'build/classes/main/edu/asu/heal/promisapiv3/apiv30/dao'
+task deploy (type: Copy, dependsOn: compileJava) {
+  from 'src/edu/asu/epilepsy/apiv30/dao/dao.properties'
+  into 'build/classes/java/main/edu/asu/epilepsy/apiv30/dao'
 }
 
-task something1 (dependsOn: deploy1) {
+task setDBConfig (dependsOn: deploy) {
     doLast{
-        ant.propertyfile(file: "build/classes/main/edu/asu/heal/promisapiv3/apiv30/dao/dao.properties"){
+        ant.propertyfile(file: "build/classes/java/main/edu/asu/epilepsy/apiv30/dao/dao.properties"){
             entry(key : "jdbc.url", value : jdbcurl)
             entry( key : "jdbc.user", value : jdbcusername)
             entry( key : "jdbc.passwd", value : jdbcpassword)
@@ -27,12 +26,12 @@ task something1 (dependsOn: deploy1) {
 }
 
 war {
-  webXml = file('WebContent/WEB-INF/apiv30.xml')
+  webXml = file('WebContent/WEB-INF/web.xml')
   archiveName 'v30.war'
 }
 
 task CleanUp (type: Delete){
-  delete 'build/classes/main/edu/asu/heal/promisapiv3/apiproxy', 'build/classes/main/edu/asu/heal/promisapiv3/apiv31s'
+  delete 'build/classes/java/main/edu/asu/epilepsy/apiv30'
 }
 
 repositories {
