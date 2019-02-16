@@ -10,12 +10,17 @@ sourceSets{
   }
 }
 
-task deploy (type: Copy, dependsOn: compileJava) {
+task deployDAO (type: Copy, dependsOn: compileJava) {
   from 'src/edu/asu/epilepsy/apiv30/dao/dao.properties'
   into 'build/classes/java/main/edu/asu/epilepsy/apiv30/dao'
 }
 
-task setDBConfig (dependsOn: deploy) {
+task deployQuestionProperties (type: Copy, dependsOn: deployDAO) {
+  from 'src/edu/asu/epilepsy/apiv30/model/questionOption.properties'
+  into 'build/classes/java/main/edu/asu/epilepsy/apiv30/model'
+}
+
+task setDBConfig (dependsOn: deployQuestionProperties) {
     doLast{
         ant.propertyfile(file: "build/classes/java/main/edu/asu/epilepsy/apiv30/dao/dao.properties"){
             entry(key : "jdbc.url", value : jdbcurl)
