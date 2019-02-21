@@ -4,19 +4,19 @@ apply plugin: 'war'
 sourceSets{
   main{
     java{
-      srcDirs 'src/edu/asu/epilepsy/apiv30'
+      srcDirs 'src/main/java/edu/asu/epilepsy/apiv30'
 
     }
   }
 }
 
 task deployDAO (type: Copy, dependsOn: compileJava) {
-  from 'src/edu/asu/epilepsy/apiv30/dao/dao.properties'
+  from 'src/main/java/edu/asu/epilepsy/apiv30/dao/dao.properties'
   into 'build/classes/java/main/edu/asu/epilepsy/apiv30/dao'
 }
 
 task deployQuestionProperties (type: Copy, dependsOn: deployDAO) {
-  from 'src/edu/asu/epilepsy/apiv30/model/questionOption.properties'
+  from 'src/main/java/edu/asu/epilepsy/apiv30/model/questionOption.properties'
   into 'build/classes/java/main/edu/asu/epilepsy/apiv30/model'
 }
 
