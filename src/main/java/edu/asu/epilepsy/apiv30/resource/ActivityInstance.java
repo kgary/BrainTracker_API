@@ -47,9 +47,7 @@ public class ActivityInstance {
 
   @GET
   @Path("/scheduledactivity/")
-  public Response getScheduledActivities(
-    @QueryParam("pin") String pin
-  ) throws Exception {
+  public Response getScheduledActivities(@QueryParam("pin") String pin) throws Exception {
 
     Response response = null;
     String json_string = promis_service.checkActivityInstance(pin);

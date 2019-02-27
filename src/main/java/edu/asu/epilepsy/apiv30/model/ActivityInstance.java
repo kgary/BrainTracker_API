@@ -15,13 +15,13 @@ public final class ActivityInstance {
   private final Date userSubmissionTime;
   private final Date actualSubmissionTime;
   private final String state;
-  private final String sequence; // JSON right?
+  private final Sequence sequence;
   private final String activityTitle;
   private final String description;
   private final String patientPin;
 
   /* package scope on purpose */
-  public ActivityInstance(String aid, Date startTime, Date endTime, Date userSubmissionTime, Date actualSubmissionTime, String state, String sequence, String activityTitle, String description, String patientPin) throws ModelException {
+  public ActivityInstance(String aid, Date startTime, Date endTime, Date userSubmissionTime, Date actualSubmissionTime, String state, Sequence sequence, String activityTitle, String description, String patientPin) throws ModelException {
     // Initialize existing one from DAO
     activityInstanceId = aid;
     this.startTime = startTime;
@@ -67,7 +67,7 @@ public final class ActivityInstance {
     return state;
   }
 
-  public String getSequence() {
+  public Sequence getSequence() {
     return sequence;
   }
 

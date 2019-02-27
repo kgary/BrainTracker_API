@@ -1,6 +1,3 @@
-/**
- *
- */
 package edu.asu.epilepsy.apiv30.resource;
 
 import edu.asu.epilepsy.apiv30.service.PromisService;
@@ -39,8 +36,8 @@ public class Patient {
    * Not fully specified. An example showing possible filter params on a collection of patients
    *
    * @param trial
-   * @param compliance     ask for patients above or below a given compliance level
-   * @param used           in conjunction with previous param
+   * @param complianceLevel     ask for patients above or below a given compliance level
+   * @param above
    * @param includeDeleted should we include deactivated patients?
    * @param stage
    * @return
