@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 @Path("/patients")
 @Produces(MediaType.APPLICATION_JSON)
 public class Patient {
-  PromisService promis_service = new PromisService(); //Instantiating the promis service.
+  private PromisService promis_service = new PromisService(); //Instantiating the promis service.
 
   /**
    * Fetches an individual Patient by PIN

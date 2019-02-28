@@ -426,7 +426,7 @@ public class PromisService {
     JsonObject jsonObject = new JsonObject();
     jsonObject = tryGetJsonObject(request);
 
-    String activityId = jsonObject.get("parentactivity").getAsString();
+    String activityId = jsonObject.get("activityId").getAsString();
     String pin = jsonObject.get("pin").getAsString();
     Patient patient = __modelFactory.getPatient(pin);
     if (patient == null) {
@@ -655,8 +655,6 @@ public class PromisService {
     String deviceType = json.get("deviceType").getAsString();
     String deviceVersion = json.get("deviceVersion").getAsString();
     String ishydroxyUreaPrescribed = json.get("hydroxureaTablets").getAsString();
-    String otherMedicine = json.get("otherMedicine").getAsString();
-    String otherInfo = json.get("otherInfo").getAsString();
 
     //Getting the JSON array of the medicationInformation
     JsonArray medDetails = (JsonArray) json.get("medDetails");
