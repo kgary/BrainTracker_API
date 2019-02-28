@@ -54,7 +54,7 @@ public final class ModelFactory {
           (Date) vo.getAttribute("UserSubmissionTime"),
           (Date) vo.getAttribute("ActualSubmissionTime"),
           (String) vo.getAttribute("State"),  // what is this again?
-          (String) vo.getAttribute("Sequence"), // assuming this is JSON?
+          (Sequence) vo.getAttribute("Sequence"),
           (String) vo.getAttribute("activityTitle"),
           (String) vo.getAttribute("description"),
           (String) vo.getAttribute("patientPin"));

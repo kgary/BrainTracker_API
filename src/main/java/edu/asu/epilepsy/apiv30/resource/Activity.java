@@ -24,9 +24,7 @@ public class Activity {
 
   @POST
   @Path("/scheduleactivity/")
-  public Response activityInstance(String content
-  ) throws NumberFormatException, Exception {
-
+  public Response activityInstance(String content) throws NumberFormatException, Exception {
     Response response = null;
     String jsonstring = promis_service.cronJob(content);
     response = Response.status(Response.Status.CREATED)

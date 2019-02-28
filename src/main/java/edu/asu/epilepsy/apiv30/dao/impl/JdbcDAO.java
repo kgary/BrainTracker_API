@@ -5,6 +5,7 @@ import edu.asu.epilepsy.apiv30.dao.DAOException;
 import edu.asu.epilepsy.apiv30.dao.DAOFactory;
 import edu.asu.epilepsy.apiv30.dao.ValueObject;
 import edu.asu.epilepsy.apiv30.helper.APIConstants;
+import edu.asu.epilepsy.apiv30.helper.GsonFactory;
 import edu.asu.epilepsy.apiv30.model.ActivityInstance;
 import edu.asu.epilepsy.apiv30.model.ContainerActivity;
 import edu.asu.epilepsy.apiv30.model.MedicalAdherence;
@@ -23,6 +24,7 @@ import edu.asu.epilepsy.apiv30.model.PostSpatialSpan;
 import edu.asu.epilepsy.apiv30.model.Question;
 import edu.asu.epilepsy.apiv30.model.Question.Type;
 import edu.asu.epilepsy.apiv30.model.QuestionOption;
+import edu.asu.epilepsy.apiv30.model.Sequence;
 import edu.asu.epilepsy.apiv30.model.UILogger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -110,7 +112,7 @@ public abstract class JdbcDAO implements DAO {
         if (!(rs.getString("ActualSubmissionTime") == null || rs.getString("UserSubmissionTime").isEmpty()))
           actualSubmissionTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("ActualSubmissionTime"));
         String state = rs.getString("State");
-        String sequence = rs.getString("Sequence");
+        Sequence sequence = GsonFactory.getInstance().getGson().fromJson(rs.getString("Sequence"),Sequence.class);
         String activityTitle = rs.getString("activityTitle");
         String description = rs.getString("description");
         String patientPin = rs.getString("PatientPinFK");
@@ -416,7 +418,7 @@ public abstract class JdbcDAO implements DAO {
         String patientPin = rs.getString("PatientPinFK");
 
 
-        ActivityInstance activityIns = new ActivityInstance(activityInstanceId, startTime, endTime, userSubmissionTime, actualSubmissionTime, state, sequence, activityTitle, description, patientPin);
+        ActivityInstance activityIns = new ActivityInstance(activityInstanceId, startTime, endTime, userSubmissionTime, actualSubmissionTime, state, GsonFactory.getInstance().getGson().fromJson(sequence, Sequence.class), activityTitle, description, patientPin);
         activityInstances.add(activityIns);
 
       }
