@@ -1,1 +1,6 @@
-/build/
+/build
+/gradlew
+/gradlew.bat
+/BrainTracker_API.iml
+/gradle
+/.idea

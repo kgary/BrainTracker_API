@@ -3,27 +3,27 @@ import org.apache.tools.ant.filters.ReplaceTokens
 apply plugin: 'java'
 apply plugin: 'war'
 
-sourceSets{
-  main{
-    java{
+sourceSets {
+  main {
+    java {
       srcDirs 'src/edu/asu/heal/promisapiv3/apiv31'
     }
   }
 }
 
-task deploy1 (type: Copy, dependsOn: compileJava) {
+task deploy1(type: Copy, dependsOn: compileJava) {
   from 'src/edu/asu/heal/promisapiv3/apiv31/dao/dao.properties'
   into 'build/classes/main/edu/asu/heal/promisapiv3/apiv31/dao'
 }
 
-task something1 (dependsOn: deploy1) {
-    doLast{
-        ant.propertyfile(file: "build/classes/main/edu/asu/heal/promisapiv3/apiv31/dao/dao.properties"){
-            entry(key : "jdbc.url", value : jdbcurl)
-            entry( key : "jdbc.user", value : jdbcusername)
-            entry( key : "jdbc.passwd", value : jdbcpassword)
-        }
+task something1(dependsOn: deploy1) {
+  doLast {
+    ant.propertyfile(file: "build/classes/main/edu/asu/heal/promisapiv3/apiv31/dao/dao.properties") {
+      entry(key: "jdbc.url", value: jdbcurl)
+      entry(key: "jdbc.user", value: jdbcusername)
+      entry(key: "jdbc.passwd", value: jdbcpassword)
     }
+  }
 }
 
 war {
@@ -32,14 +32,14 @@ war {
   filter(ReplaceTokens, tokens: ['edu.asu.heal.promisapiv3', 'edu.asu.heal.promisapiv3.apiv31'])
 }
 
-task CleanUp (type: Delete){
+task CleanUp(type: Delete) {
   delete 'build/classes/main/edu/asu/heal/promisapiv3/apiproxy', 'build/classes/main/edu/asu/heal/promisapiv3/apiv30'
 }
 
 repositories {
-    flatDir {
-        dirs 'lib'
-    }
+  flatDir {
+    dirs 'lib'
+  }
 }
 
 dependencies {
