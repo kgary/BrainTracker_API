@@ -576,7 +576,7 @@ public abstract class JdbcDAO implements DAO {
               connection.rollback();
               throw e;
             }
-//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getParentactivity());
 
           } else if (activity.getActivityId().equals("FLANKER")) {
             query = DAOFactory.getDAOProperties().getProperty("sql.flankerSubmit");
@@ -607,7 +607,7 @@ public abstract class JdbcDAO implements DAO {
               connection.rollback();
               throw e;
             }
-//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getParentactivity());
 
 
           } else if (activity.getActivityId().equals("PATTERNCOMPARISON")) {
@@ -639,7 +639,7 @@ public abstract class JdbcDAO implements DAO {
               connection.rollback();
               throw e;
             }
-//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getParentactivity());
 
           } else if (activity.getActivityId().equals("SPATIALSPAN")) {
             query = DAOFactory.getDAOProperties().getProperty("sql.spatialspansubmit");
@@ -670,7 +670,7 @@ public abstract class JdbcDAO implements DAO {
               connection.rollback();
               throw e;
             }
-//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getActivityId());
+//                    	modifyActivityInstance(activityInstanceId,patientPin,activity.getParentactivity());
 
           }
         }

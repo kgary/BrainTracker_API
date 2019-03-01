@@ -426,7 +426,7 @@ public class PromisService {
     JsonObject jsonObject = new JsonObject();
     jsonObject = tryGetJsonObject(request);
 
-    String activityId = jsonObject.get("activityId").getAsString();
+    String activityId = jsonObject.get("parentactivity").getAsString();
     String pin = jsonObject.get("pin").getAsString();
     Patient patient = __modelFactory.getPatient(pin);
     if (patient == null) {
@@ -794,7 +794,7 @@ public class PromisService {
       else
         activityID = APIConstants.weeklyActivityID;
 
-      genDailyWeeklyResponse.setActivityId(activityID);
+      genDailyWeeklyResponse.setParentactivity(activityID);
 
       genDailyWeeklyResponse.setTrial_type(Patient.Trial.SICKLE_CELL);
       ArrayList<String> startandendTime = computeStartandEndTime(activityID, 48, (i * 7));
@@ -820,7 +820,7 @@ public class PromisService {
       else
         activityID = APIConstants.dailyActivityID;
 
-      genDailyWeeklyResponse.setActivityId(activityID);
+      genDailyWeeklyResponse.setParentactivity(activityID);
 
       genDailyWeeklyResponse.setTrial_type(Patient.Trial.SICKLE_CELL);
       ArrayList<String> startandendTime = computeStartandEndTime(activityID, 24, i);
@@ -843,7 +843,7 @@ public class PromisService {
     else
       activityID = APIConstants.dailyActivityID;
 
-    genDailyWeeklyResponse.setActivityId(activityID);
+    genDailyWeeklyResponse.setParentactivity(activityID);
 
     genDailyWeeklyResponse.setTrial_type(Patient.Trial.SICKLE_CELL);
     ArrayList<String> startandendTime = computeStartandEndTime(activityID, 24, noOfDailies);
