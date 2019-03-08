@@ -103,24 +103,26 @@ public class Patient {
 
   //The inner class for enrolling patients.
   public class PatientEnroll {
-    public PatientEnroll(String patientType, String childPIN, String deviceType, String deviceVersion
-      , String hydroxyUrea, ArrayList<medicationInfo> patientMedication, Trial trialType) {
-      _patientType = patientType;
-      _childPIN = childPIN;
-      _deviceType = deviceType;
-      _deviceVersion = deviceVersion;
-      _isHydroxyUreaPrescribed = hydroxyUrea;
-      _patientMedication = patientMedication;
-      _trialType = trialType;
-    }
-
     private String _patientType;
     private String _childPIN;
     private String _deviceType;
     private String _deviceVersion;
     private String _isHydroxyUreaPrescribed;
+    private String _isChildOnMedication;
     private ArrayList<medicationInfo> _patientMedication;
     private Trial _trialType;
+
+    public PatientEnroll(String patientType, String childPIN, String deviceType, String deviceVersion
+            , String hydroxyUrea, String isChildOnMedication, ArrayList<medicationInfo> patientMedication, Trial trialType) {
+      _patientType = patientType;
+      _childPIN = childPIN;
+      _deviceType = deviceType;
+      _deviceVersion = deviceVersion;
+      _isHydroxyUreaPrescribed = hydroxyUrea;
+      _isChildOnMedication = isChildOnMedication;
+      _patientMedication = patientMedication;
+      _trialType = trialType;
+    }
 
     public Trial get_trialType() {
       return _trialType;
@@ -178,6 +180,13 @@ public class Patient {
       this._patientMedication = patientMedication;
     }
 
+    public String isChildOnMedication() {
+      return _isChildOnMedication;
+    }
+
+    public void setChildOnMedication(String _isChildOnMedication) {
+      this._isChildOnMedication = _isChildOnMedication;
+    }
   }
 
   //This is the class for containing the medication info.

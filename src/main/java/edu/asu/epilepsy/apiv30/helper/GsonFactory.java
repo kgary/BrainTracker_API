@@ -24,7 +24,7 @@ public final class GsonFactory {
   public static synchronized GsonFactory getInstance(){
     if(instance == null){
       GsonBuilder gsonBuilder = new GsonBuilder();
-      gson = gsonBuilder.create();
+      gson = gsonBuilder.serializeNulls().create();
       instance = new GsonFactory();
     }
     return instance;
