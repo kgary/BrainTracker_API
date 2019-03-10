@@ -22,6 +22,39 @@ public class Activity {
 
   PromisService promis_service = new PromisService();//-?|KG-review-080416|kevinagary|c0|
 
+  /**
+   * @api {POST} /activity/scheduleactivity Create New Activity
+   * @apiName ScheduleActivity
+   * @apiGroup Activity
+   * @apiVersion 0.0.0
+   * @apiDescription This is a API which designed for activity instance creation.
+   * @apiExample Example of body:
+   * {
+   *    "pin":"",
+   *    "parentactivity":"PATTERNCOMPARISON",
+   *    "trial_type":"EPILEPSY"
+   * }
+   *
+   * @apiSuccess {JSON} message The message of the operation.
+   *
+   * @apiSuccessExample Example data on Success:
+   * {
+   *     "status": "SUCCESS",
+   *     "message": "",
+   *     "pin": ""
+   * }
+   *
+   * @apiError (Error 404) UserNotFound The PIN is invalid
+   * @apiError (Error 500) JsonError The JSON is invalid
+   * @apiErrorExample {json} Error response:
+   *    {
+   *     "developerMessage": null,
+   *     "message": "The PIN is invalid",
+   *     "code": 0,
+   *     "status": 0
+   *    }
+   *
+   */
   @POST
   @Path("/scheduleactivity/")
   public Response activityInstance(String content) throws NumberFormatException, Exception {

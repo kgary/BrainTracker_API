@@ -45,6 +45,44 @@ public class ActivityInstance {
 
   PromisService promis_service = new PromisService();
 
+  /**
+   * @api {GET} /activities/scheduledactivity Get All Scheduled Activities
+   * @apiName GetScheduledActivity
+   * @apiGroup Activities
+   * @apiVersion 0.0.0
+   * @apiDescription This is a API which designed for peeking activity instances.
+   * @apiParam {Integer} pin Pin of the patient
+   *
+   * @apiSuccess {JSON} Result Result of list of existing activities for the patient with the pin
+   *
+   * @apiSuccessExample Example data on Success:
+   * {
+   *     "activities": [
+   *         {
+   *             "activityInstanceID": "625",
+   *             "nextDueAt": "Mon Mar 11 04:59:00 MST 2019",
+   *             "activityTitle": "Epilepsy Weekly Survey",
+   *             "description": "Weekly Activity To be completed for Epilepsy disease patients",
+   *             "state": "pending",
+   *             "sequence": "{\"sequence\":[\"PATTERNCOMPARISON\"],\"parentactivity\":\"PATTERNCOMPARISON\"}"
+   *         }
+   *     ],
+   *     "showEnhancedContent": false,
+   *     "status": "SUCCESS",
+   *     "message": "",
+   *     "pin": ""
+   * }
+   *
+   * @apiError (Error 404) UserNotFound The PIN is invalid
+   * @apiError (Error 500) JsonError The JSON is invalid
+   * @apiErrorExample {json} Error response:
+   *    {
+   *     "developerMessage": null,
+   *     "message": "The PIN is invalid",
+   *     "code": 0,
+   *     "status": 0
+   *    }
+   */
   @GET
   @Path("/scheduledactivity/")
   public Response getScheduledActivities(@QueryParam("pin") String pin) throws Exception {
@@ -57,6 +95,50 @@ public class ActivityInstance {
 
   }
 
+/**
+ * @api {GET} /activities/activityinstance/{activityInstanceId} Get Specific Activity
+ * @apiName GetSpecificActivityById
+ * @apiGroup Activities
+ * @apiVersion 0.0.0
+ * @apiDescription This is a API which designed for peeking a activity instance.
+ *
+ * @apiParam {Integer} activityInstanceId activity instance's Id
+ * @apiParam {Integer} pin Pin of the patient
+ * @apiParamExample {JSON} Example of param:
+ * {"pin": 1004}
+ * @apiSuccess {JSON} Result Result of the activity
+ * @apiSuccessExample Example data on Success:
+ * {
+ *     "sequences": [
+ *         "PATTERNCOMPARISON"
+ *     ],
+ *     "activityName": "Epilepsy Weekly Survey",
+ *     "parentactivity": "625",
+ *     "startTime": "Sat Mar 09 22:05:17 MST 2019",
+ *     "endTime": "Mon Mar 11 04:59:00 MST 2019",
+ *     "state": "pending",
+ *     "activitySequence": [
+ *         {
+ *             "activityBlockId": "PATTERNCOMPARISON"
+ *         }
+ *     ],
+ *     "showGame": false,
+ *     "status": "SUCCESS",
+ *     "message": "",
+ *     "pin": ""
+ * }
+ *
+ * @apiError (Error 404) UserNotFound The PIN is invalid
+ * @apiError (Error 400) UserNotFound Pin parameter is mandatory
+ * @apiError (Error 500) JsonError The JSON is invalid
+ * @apiErrorExample {json} Error response:
+ *    {
+ *     "developerMessage": null,
+ *     "message": "The PIN is invalid",
+ *     "code": 0,
+ *     "status": 0
+ *    }
+ */
   @GET
   @Path("/activityinstance/{activityInstanceId}")
   public Response getActivityInstance(
@@ -77,6 +159,84 @@ public class ActivityInstance {
     }
   }
 
+  /**
+   * @api {POST} /activities/activityinstanceresult/{activityInstanceId} Submit a New Activity Result
+   * @apiName PostActivityInstanceResult
+   * @apiGroup Activity
+   * @apiVersion 0.0.0
+   * @apiDescription This is a API which designed for submitting a activity result.
+   * @apiParam {Integer} activityInstanceId activity instance's Id
+   * @apiParam {Integer} pin Pin of the patient
+   * @apiParamExample {JSON} Example of param:
+   * {"pin": 4003}
+   *
+   * @apiExample Example of body:
+   * {
+   *     "activityInstanceID": 625,
+   *     "timeStamp": 1552196109000,
+   *     "activityResults": [
+   *         {
+   *             "activityBlockId": "PATTERNCOMPARISON",
+   *             "screenWidth": 1920,
+   *             "screenHeight": 1080,
+   *             "timeTakenToComplete": 11000,
+   *             "answers": [
+   *                 {
+   *                     "result": true,
+   *                     "timeTaken": 6932,
+   *                     "questionIndex": 1,
+   *                     "pattern": "11"
+   *                 },
+   *                 {
+   *                     "result": false,
+   *                     "timeTaken": 2629,
+   *                     "questionIndex": 2,
+   *                     "pattern": "01"
+   *                 },
+   *                 {
+   *                     "result": true,
+   *                     "timeTaken": 1626,
+   *                     "questionIndex": 3,
+   *                     "pattern": "11"
+   *                 },
+   *                 {
+   *                     "result": false,
+   *                     "timeTaken": 2350,
+   *                     "questionIndex": 4,
+   *                     "pattern": "01"
+   *                 },
+   *                 {
+   *                     "result": true,
+   *                     "timeTaken": 12974,
+   *                     "questionIndex": 5,
+   *                     "pattern": "00"
+   *                 }
+   *             ]
+   *         }
+   *     ]
+   * }
+   *
+   * @apiSuccess {JSON} message The message of the operation.
+   *
+   * @apiSuccessExample Example data on Success:
+   * {
+   *     "status": "SUCCESS",
+   *     "message": "",
+   *     "pin": ""
+   * }
+   *
+   * @apiError (Error 404) UserNotFound The PIN is invalid
+   * @apiError (Error 400) UserNotFound Pin parameter is mandatory
+   * @apiError (Error 500) JsonError The JSON is invalid
+   * @apiError (Error 409) JsonError The Activity Instance ID is not for the given Patient Pin
+   * @apiError (Error 409) JsonError Survey_instance has been completed
+   * @apiErrorExample {json} Error response:
+   * {
+   *     "message": "The Activity Instance ID is not for the given Patient Pin.",
+   *     "code": 0,
+   *     "status": 0
+   * }
+   */
   @POST
   @Path("/activityinstanceresult/{activityInstanceId}")
   public Response submitActivity(String content,
