@@ -22,6 +22,18 @@ public class UILogger {
 
   PromisService promis_service = new PromisService();
 
+  /**
+   * @api {POST} /uilogger Submit UI logger
+   * @apiName SubmitLogger
+   * @apiGroup UILogger
+   * @apiVersion 0.0.0
+   * @apiExample Example of body:
+   * {
+   *     "loggerResults" : []
+   * }
+   *
+   * @apiSuccess {JSON} message The message of the operation.
+   */
   @POST
   public Response submitUILogger(String content
   ) throws Exception {
