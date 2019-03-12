@@ -7,7 +7,7 @@ import java.util.List;
 public class CreateActInstanceResponse extends Response {
   private List<String> sequences;
   private String activityName;
-  private String activityId;
+  private String parentactivity;
   private String startTime;
   private String endTime;
   private String state;
@@ -17,7 +17,7 @@ public class CreateActInstanceResponse extends Response {
   public CreateActInstanceResponse() {
     this.sequences = null;
     this.activityName = null;
-    this.activityId = null;
+    this.parentactivity = null;
     this.startTime = null;
     this.endTime = null;
     this.state = null;
@@ -25,11 +25,11 @@ public class CreateActInstanceResponse extends Response {
     this.showGame = false;
   }
 
-  public CreateActInstanceResponse(Status message, List<String> sequences, String activityName, String activityId, String startTime, String endTime, String state, JsonArray activitySequence, boolean showGame) {
+  public CreateActInstanceResponse(Status message, List<String> sequences, String activityName, String parentactivity, String startTime, String endTime, String state, JsonArray activitySequence, boolean showGame) {
     super(message);
     this.sequences = sequences;
     this.activityName = activityName;
-    this.activityId = activityId;
+    this.parentactivity = parentactivity;
     this.startTime = startTime;
     this.endTime = endTime;
     this.state = state;
@@ -53,12 +53,12 @@ public class CreateActInstanceResponse extends Response {
     this.activityName = activityName;
   }
 
-  public String getActivityId() {
-    return activityId;
+  public String getParentactivity() {
+    return parentactivity;
   }
 
-  public void setActivityId(String activityId) {
-    this.activityId = activityId;
+  public void setParentactivity(String parentactivity) {
+    this.parentactivity = parentactivity;
   }
 
   public String getStartTime() {
