@@ -122,7 +122,10 @@ public class PromisService {
                         pcJson=pcJson.replace("\\","");
                         parametersArray.add(pcJson);
                     } else if(activityTitle.equals("Finger-Tapping")) {
-                        //maxTrials,consecTrials,tapVariance,trialTime
+                        FingerTappingParameters parameters=__modelFactory.getFingerActivityParameters(activityTitle);
+                        String fingerTappingJson=gsonConverter.toJson(parameters,FingerTappingParameters.class);
+                        fingerTappingJson=fingerTappingJson.replace("\\","");
+                        parametersArray.add(fingerTappingJson);
                     }
                     List<String> sequenceArray =  sequence.getSequence();
                     String activityId = sequence.getParentactivity();

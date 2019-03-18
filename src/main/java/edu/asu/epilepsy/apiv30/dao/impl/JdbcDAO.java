@@ -153,11 +153,12 @@ public abstract class JdbcDAO implements DAO {
                     PatternComparisonParameters parameters= GsonFactory.getInstance().getGson().fromJson(rs.getString("Parameters"), PatternComparisonParameters.class);
                     System.out.println(TAG+"PatternComparisonParameters:-"+rs.getNString("Parameters"));
                     vo.putAttribute("Parameters", parameters);
+                } else if(activityName.equals("Finger-Tapping")){
+                    FingerTappingParameters parameters= GsonFactory.getInstance().getGson().fromJson(rs.getString("Parameters"), FingerTappingParameters.class);
+                    System.out.println(TAG+"FingerTapping Parameters:-"+rs.getNString("Parameters"));
+                    vo.putAttribute("Parameters", parameters);
                 }
-
-
-
-            }
+          }
         } catch (Throwable t) {
             t.printStackTrace();
             throw new DAOException("Unable to process results from query sql.activityParameters");

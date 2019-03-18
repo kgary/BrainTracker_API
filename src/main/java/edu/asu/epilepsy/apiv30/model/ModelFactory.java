@@ -82,6 +82,11 @@ public final class ModelFactory {
     return (PatternComparisonParameters) vo.getAttribute("Parameters");
   }
 
+  public FingerTappingParameters getFingerActivityParameters(String activityName) throws DAOException{
+    ValueObject vo=__theDAO.getActivityParameters(activityName);
+    return (FingerTappingParameters) vo.getAttribute("Parameters");
+  }
+
 
   public Activity getActivity(String activityId, String patientPIN) throws ModelException {
     try {
