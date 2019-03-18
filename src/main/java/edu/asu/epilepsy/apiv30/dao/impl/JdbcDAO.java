@@ -141,8 +141,18 @@ public abstract class JdbcDAO implements DAO {
             if (rs.next()) {
                 vo = new ValueObject();
                 System.out.println(TAG + " getActivityParameters :- " + "ACTIVITY Parameters - " + rs.getString("Parameters"));
-                FlankerParameters parameters = GsonFactory.getInstance().getGson().fromJson(rs.getString("Parameters"), FlankerParameters.class);
-                vo.putAttribute("Parameters", parameters);
+
+                if(activityName.equals("Flanker-Test")){
+                    FlankerParameters parameters = GsonFactory.getInstance().getGson().fromJson(rs.getString("Parameters"), FlankerParameters.class);
+                    vo.putAttribute("Parameters", parameters);
+                }else if(activityName.equals("Spatial-Span")){
+                    SpatialSpanParameters parameters= GsonFactory.getInstance().getGson().fromJson(rs.getString("Parameters"), SpatialSpanParameters.class);
+                    System.out.println(TAG+"spatialSpanParameters:-"+rs.getNString("Parameters"));
+                    vo.putAttribute("Parameters", parameters);
+                }
+
+
+
             }
         } catch (Throwable t) {
             t.printStackTrace();

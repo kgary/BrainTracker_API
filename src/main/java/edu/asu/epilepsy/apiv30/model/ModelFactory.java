@@ -72,6 +72,11 @@ public final class ModelFactory {
     return (FlankerParameters) vo.getAttribute("Parameters");
   }
 
+  public SpatialSpanParameters getSpatialActivityParameters(String activityName) throws DAOException{
+    ValueObject vo = __theDAO.getActivityParameters(activityName);
+    return (SpatialSpanParameters) vo.getAttribute("Parameters");
+  }
+
 
   public Activity getActivity(String activityId, String patientPIN) throws ModelException {
     try {

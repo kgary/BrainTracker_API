@@ -111,6 +111,16 @@ public class PromisService {
                         flankerJson=flankerJson.replace("\\","");
                         parametersArray.add(flankerJson);
                         System.out.println(TAG + " flankerJson " + flankerJson);
+                    } else if(activityTitle.equals("Spatial-Span")){
+                        SpatialSpanParameters parameters=__modelFactory.getSpatialActivityParameters(activityTitle);
+                        String spatialJson=gsonConverter.toJson(parameters,SpatialSpanParameters.class);
+                        spatialJson=spatialJson.replace("\\","");
+                        parametersArray.add(spatialJson);
+                    } else if(activityTitle.equals("Pattern-Comparison")) {
+                        //numQuestions,maxTime,newImages
+
+                    } else if(activityTitle.equals("Finger-Tapping")) {
+                        //maxTrials,consecTrials,tapVariance,trialTime
                     }
 
                     List<String> sequenceArray =  sequence.getSequence();
