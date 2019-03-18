@@ -11,25 +11,10 @@ import edu.asu.epilepsy.apiv30.errorHandler.ErrorMessage;
 import edu.asu.epilepsy.apiv30.errorHandler.NotFoundException;
 import edu.asu.epilepsy.apiv30.helper.APIConstants;
 import edu.asu.epilepsy.apiv30.helper.GsonFactory;
-import edu.asu.epilepsy.apiv30.model.Activity;
-import edu.asu.epilepsy.apiv30.model.ActivityInstance;
-import edu.asu.epilepsy.apiv30.model.CheckActivity;
-import edu.asu.epilepsy.apiv30.model.ModelException;
-import edu.asu.epilepsy.apiv30.model.ModelFactory;
-import edu.asu.epilepsy.apiv30.model.Patient;
+import edu.asu.epilepsy.apiv30.model.*;
 import edu.asu.epilepsy.apiv30.model.Patient.PatientEnroll;
 import edu.asu.epilepsy.apiv30.model.Patient.Trial;
 import edu.asu.epilepsy.apiv30.model.Patient.medicationInfo;
-import edu.asu.epilepsy.apiv30.model.PostActivity;
-import edu.asu.epilepsy.apiv30.model.PostFingerTapping;
-import edu.asu.epilepsy.apiv30.model.PostFlanker;
-import edu.asu.epilepsy.apiv30.model.PostPainIntensity;
-import edu.asu.epilepsy.apiv30.model.PostPatternComparison;
-import edu.asu.epilepsy.apiv30.model.PostPromisSurvey;
-import edu.asu.epilepsy.apiv30.model.PostSpatialSpan;
-import edu.asu.epilepsy.apiv30.model.QuestionOption;
-import edu.asu.epilepsy.apiv30.model.Sequence;
-import edu.asu.epilepsy.apiv30.model.UILogger;
 import edu.asu.epilepsy.apiv30.model.request.EnrollPatientsRequest;
 import edu.asu.epilepsy.apiv30.model.response.*;
 import org.apache.logging.log4j.LogManager;
@@ -81,6 +66,8 @@ public class PromisService {
 
         Date timeStamp = new Date();
         JsonArray activityArray = new JsonArray();
+        JsonArray parametersArray=new JsonArray();
+        JsonObject parameterObj=new JsonObject();
         JsonArray initialactivityArray = new JsonArray();
         boolean showGame;
         Object intervention;
@@ -115,6 +102,17 @@ public class PromisService {
                 } else {
                     boolean state = __modelFactory.changeActivityInsState(Integer.parseInt(activityInstanceId), "in progress");
                     Sequence sequence = activityInstance.getSequence();
+
+                    //To get the parameters from the backend corresponding to each activity based on the activityTitle
+                    String activityTitle=activityInstance.getActivityTitle();
+                    if(activityTitle.equals("Flanker-Test")){
+                        FlankerParameters parameters=__modelFactory.getActivityParameters(activityTitle);
+                        String flankerJson=gsonConverter.toJson(parameters,FlankerParameters.class);
+                        flankerJson=flankerJson.replace("\\","");
+                        parametersArray.add(flankerJson);
+                        System.out.println(TAG + " flankerJson " + flankerJson);
+                    }
+
                     List<String> sequenceArray =  sequence.getSequence();
                     String activityId = sequence.getParentactivity();
                     Activity activity = __modelFactory.getActivity(activityId, pin);
@@ -138,6 +136,7 @@ public class PromisService {
                     } else if (element instanceof JsonObject) {
                         activityArray.add(element);
                     }
+
                     showGame = patient.getType().equals("child");
                     CreateActInstanceResponse createActInstanceResponse = new CreateActInstanceResponse(
                             Status.SUCCESS,
@@ -148,7 +147,8 @@ public class PromisService {
                             activityInstance.getEndTime().toString(),
                             activityInstance.getState(),
                             activityArray,
-                            showGame);
+                            showGame,
+                            parametersArray);
                     return gsonConverter.toJson(createActInstanceResponse,CreateActInstanceResponse.class);
                 }
             } else {

@@ -12,6 +12,7 @@ public class CreateActInstanceResponse extends Response {
   private String endTime;
   private String state;
   private JsonArray activitySequence;
+  private JsonArray activityParameters;
   private boolean showGame;
 
   public CreateActInstanceResponse() {
@@ -23,9 +24,10 @@ public class CreateActInstanceResponse extends Response {
     this.state = null;
     this.activitySequence = null;
     this.showGame = false;
+    this.activityParameters=null;
   }
 
-  public CreateActInstanceResponse(Status message, List<String> sequences, String activityName, String parentactivity, String startTime, String endTime, String state, JsonArray activitySequence, boolean showGame) {
+  public CreateActInstanceResponse(Status message, List<String> sequences, String activityName, String parentactivity, String startTime, String endTime, String state, JsonArray activitySequence, boolean showGame, JsonArray activityParameters) {
     super(message);
     this.sequences = sequences;
     this.activityName = activityName;
@@ -35,6 +37,7 @@ public class CreateActInstanceResponse extends Response {
     this.state = state;
     this.activitySequence = activitySequence;
     this.showGame = showGame;
+    this.activityParameters=activityParameters;
   }
 
   public List<String> getSequences() {
@@ -99,5 +102,13 @@ public class CreateActInstanceResponse extends Response {
 
   public void setShowGame(boolean showGame) {
     this.showGame = showGame;
+  }
+
+  public JsonArray getActivityParameters() {
+    return activityParameters;
+  }
+
+  public void setActivityParameters(JsonArray activityParameters) {
+    this.activityParameters = activityParameters;
   }
 }

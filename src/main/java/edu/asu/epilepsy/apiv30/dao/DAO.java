@@ -25,6 +25,10 @@ public interface DAO {
     return null;
   }
 
+  public default ValueObject getActivityParameters(String activityName) throws DAOException {
+    return null;
+  }
+
   public default ValueObject getActivity(String activityId) throws DAOException {
     return null;
   }
