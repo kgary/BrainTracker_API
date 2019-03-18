@@ -117,12 +117,13 @@ public class PromisService {
                         spatialJson=spatialJson.replace("\\","");
                         parametersArray.add(spatialJson);
                     } else if(activityTitle.equals("Pattern-Comparison")) {
-                        //numQuestions,maxTime,newImages
-
+                        PatternComparisonParameters parameters=__modelFactory.getPatternActivityParameters(activityTitle);
+                        String pcJson=gsonConverter.toJson(parameters,PatternComparisonParameters.class);
+                        pcJson=pcJson.replace("\\","");
+                        parametersArray.add(pcJson);
                     } else if(activityTitle.equals("Finger-Tapping")) {
                         //maxTrials,consecTrials,tapVariance,trialTime
                     }
-
                     List<String> sequenceArray =  sequence.getSequence();
                     String activityId = sequence.getParentactivity();
                     Activity activity = __modelFactory.getActivity(activityId, pin);

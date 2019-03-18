@@ -149,6 +149,10 @@ public abstract class JdbcDAO implements DAO {
                     SpatialSpanParameters parameters= GsonFactory.getInstance().getGson().fromJson(rs.getString("Parameters"), SpatialSpanParameters.class);
                     System.out.println(TAG+"spatialSpanParameters:-"+rs.getNString("Parameters"));
                     vo.putAttribute("Parameters", parameters);
+                } else if(activityName.equals("Pattern-Comparison")){
+                    PatternComparisonParameters parameters= GsonFactory.getInstance().getGson().fromJson(rs.getString("Parameters"), PatternComparisonParameters.class);
+                    System.out.println(TAG+"PatternComparisonParameters:-"+rs.getNString("Parameters"));
+                    vo.putAttribute("Parameters", parameters);
                 }
 
 
