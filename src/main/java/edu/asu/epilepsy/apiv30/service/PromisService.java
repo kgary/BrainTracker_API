@@ -209,7 +209,7 @@ public class PromisService {
 
         String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
         ArrayList<PostActivity> questionResult = new ArrayList<PostActivity>();
-        JsonObject json = getJsonObject(post_result);
+        JsonObject json = gsonConverter.fromJson(post_result,JsonObject.class);
         int activityInstanceId = Integer.parseInt(json.get("activityInstanceID").toString());
         System.out.println(TAG + " submitActivityInstance() :- " + "ActivityInstanceID - " + activityInsId);
         Timestamp timeStamp = new Timestamp(json.get("timeStamp").getAsLong());
@@ -235,7 +235,7 @@ public class PromisService {
                     JsonArray question_results = (JsonArray) json.get("activityResults");
                     for (int i = 0; i < question_results.size(); i++) {
                         JsonObject result = (JsonObject) question_results.get(i);
-                        String activityType = result.get("activityBlockId").toString();
+                        String activityType =  result.get("activityBlockId").getAsString();
                         if (activityType.equals("PI_DAILY") || activityType.equals("PI_WEEKLY")) {
                             JsonArray answers = (JsonArray) result.get("answers");
                             Integer questionOptionLocation = null;
@@ -344,7 +344,7 @@ public class PromisService {
                             for (int j = 0; j < answers.size(); j++) {
                                 JsonObject answerInstance = (JsonObject) answers.get(j);
                                 System.out.println(TAG + " submitActivityInstance() :- " + answerInstance.toString());
-                                results.add(answerInstance.getAsString());
+                                results.add(answerInstance.toString());
                             }
                             PostPatternComparison postPatternComparison = new PostPatternComparison(activityType, activityInstanceId, results, timeToComplete, screenWidth, screenHeight,
                                     timeStamp, Integer.parseInt(pin));
@@ -595,7 +595,7 @@ public class PromisService {
     private JsonObject getJsonObject(String ui_logger_results) {
         JsonObject json;
         try {
-            json = (JsonObject) gsonConverter.toJsonTree(ui_logger_results,JsonObject.class);
+            json = gsonConverter.fromJson(ui_logger_results,JsonObject.class);
 
         } catch (Exception e) {
             e.printStackTrace();
