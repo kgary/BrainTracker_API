@@ -178,14 +178,13 @@ public class PromisService {
 
             for (ActivityInstance activityInstance : activityInstanceList) {
                 JsonObject act = new JsonObject();
-                String sequenceJson = gsonConverter.toJson(activityInstance.getSequence(),Sequence.class);
                 CheckActivity checkActivity = new CheckActivity(
                         activityInstance.getActivityInstanceId(),
                         activityInstance.getEndTime().toString(),
                         activityInstance.getActivityTitle(),
                         activityInstance.getDescription(),
                         activityInstance.getState(),
-                        sequenceJson
+                        activityInstance.getSequence()
                 );
                 act = gsonConverter.toJsonTree(checkActivity).getAsJsonObject();
 
