@@ -1,0 +1,7 @@
+{
+  "name": "Brain Tracker API document",
+  "version": "0.0.0",
+  "description": "A default API definition document",
+  "title": "BrainTracker API doc",
+  "url": "http://{IP_ADDR}:{PORT_NUM}/rest"
+}
