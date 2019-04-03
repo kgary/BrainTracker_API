@@ -224,6 +224,12 @@ public class PromisService {
                 JSONArray arr = (JSONArray) obj.get("sequence");
                 
                 act.put("sequence", arr);
+				String activityTitle= (String)arr.get(0);
+				if(activityTitle.equals("FLANKER")) {
+					String parameters = __modelFactory.getActivityParameters(activityTitle);
+					JSONObject parameterobj = (JSONObject) new JSONParser().parse(parameters);
+					act.put("parameter", parameterobj);
+				}
                 
                 activitySeqArray.add(act);
             }

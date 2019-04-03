@@ -150,7 +150,41 @@ public abstract class JdbcDAO implements DAO {
 		}
 		return vo;
 	}
-	
+
+	/**
+	 * Get the activity parameters for an activity instance from the backing store
+	 */
+	public ValueObject getActivityParameters(String activityName) throws DAOException {
+		ValueObject vo = null; // need to fill this up
+		Connection connection = getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			String query = DAOFactory.getDAOProperties().getProperty("sql.activityParameters");
+			ps = connection.prepareStatement(query);
+			ps.setString(1, activityName);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				vo = new ValueObject();
+				System.out.println(TAG + " getActivityParameters :- " + "ACTIVITY Parameters - " + rs.getString("Parameters"));
+				vo.putAttribute("Parameters", rs.getString("Parameters"));
+			}
+		} catch (Throwable t) {
+			t.printStackTrace();
+			throw new DAOException("Unable to process results from query sql.activityParameters");
+		} finally {
+			try {
+				if (rs != null) rs.close();
+				if (ps != null) ps.close();
+				if (connection != null) connection.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+		return vo;
+	}
+
+
 	/**
 	 * Retrieve an activity from the backing store
 	 */
