@@ -222,15 +222,11 @@ public class PromisService {
                 act.put("state", activityInstance.getState());
                 JSONObject obj = (JSONObject) new JSONParser().parse(activityInstance.getSequence());
                 JSONArray arr = (JSONArray) obj.get("sequence");
-                
                 act.put("sequence", arr);
 				String activityTitle= (String)arr.get(0);
-				if(activityTitle.equals("FLANKER")) {
-					String parameters = __modelFactory.getActivityParameters(activityTitle);
-					JSONObject parameterobj = (JSONObject) new JSONParser().parse(parameters);
-					act.put("parameter", parameterobj);
-				}
-                
+				String parameters = __modelFactory.getActivityParameters(activityTitle);
+				JSONObject parameterobj = (JSONObject) new JSONParser().parse(parameters);
+				act.put("parameters", parameterobj);
                 activitySeqArray.add(act);
             }
             System.out.println(TAG + " checkActivityInstance() :- " + activitySeqArray.toJSONString());
