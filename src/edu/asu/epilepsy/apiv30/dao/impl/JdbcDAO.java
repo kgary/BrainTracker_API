@@ -707,6 +707,7 @@ public abstract class JdbcDAO implements DAO {
                         int screenWidth = (int) postPatternComparison.getScreenWidth();
                         int screenHeight = (int) postPatternComparison.getScreenHeight();
                         ArrayList<String> results = postPatternComparison.getResults();
+                        String surveyResults = postPatternComparison.getSurveyResults();
                         String resultToSubmit = results.toString();
                         
                         try 
@@ -718,6 +719,7 @@ public abstract class JdbcDAO implements DAO {
                         	ps.setFloat(5,screenWidth);
                         	ps.setTimestamp(6, userSubmissionTime);
                         	ps.setString(7, resultToSubmit);
+                        	ps.setString(8,surveyResults);
                         	ps.addBatch();
                         } 
                     	

@@ -400,7 +400,7 @@ public class PromisService {
 							 
 ;    					}else if(activityType.equals("PATTERNCOMPARISON")){
 	
-							int screenWidth =Integer.parseInt(result.get("screenWidth").toString());
+							 int screenWidth =Integer.parseInt(result.get("screenWidth").toString());
 							 int screenHeight= Integer.parseInt(result.get("screenHeight").toString());;
 							 int timeToComplete = Integer.parseInt(result.get("timeTakenToComplete").toString());;
 							 System.out.println(TAG + " submitActivityInstance() :- ScreenHeight=" + screenHeight);
@@ -415,7 +415,8 @@ public class PromisService {
 								 System.out.println(TAG + " submitActivityInstance() :- " + answerInstance.toJSONString());
 								 results.add(answerInstance.toJSONString());
 								}
-							PostPatternComparison postPatternComparison = new PostPatternComparison(activityType, activityInstanceId, results, timeToComplete, screenWidth, screenHeight,
+							 String surveyResults = json.get("preTaskSurvey").toString();
+							PostPatternComparison postPatternComparison = new PostPatternComparison(activityType, activityInstanceId, results,surveyResults,timeToComplete, screenWidth, screenHeight,
 									timeStamp, Integer.parseInt(pin));
 							questionResult.add(postPatternComparison);
     						
