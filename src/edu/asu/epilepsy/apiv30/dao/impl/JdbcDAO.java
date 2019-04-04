@@ -626,7 +626,8 @@ public abstract class JdbcDAO implements DAO {
                         int timeToComplete = postFingerTapping.getTimeToComplete();
                         float screenWidth = postFingerTapping.getScreenWidth();
                         float screenHeight = postFingerTapping.getScreenHeight();
-                        HashMap<String, Integer> fingertappingResult = postFingerTapping.getResults();
+						String surveyResults = postFingerTapping.getSurveyResults();
+						HashMap<String, Integer> fingertappingResult = postFingerTapping.getResults();
                         JSONObject handObject = new JSONObject();
                         for (Map.Entry<String, Integer> item: fingertappingResult.entrySet()){
                         	String hand = item.getKey();
@@ -646,7 +647,8 @@ public abstract class JdbcDAO implements DAO {
                         	ps.setTimestamp(6, userSubmissionTime);
                         	ps.setString(7, fingerTappingResult);
                         	ps.setInt(8, timeToComplete);
-                        	ps.addBatch();
+							ps.setString(9,surveyResults);
+							ps.addBatch();
                         } 
                     	
                         catch(Exception e)

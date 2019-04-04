@@ -353,7 +353,8 @@ public class PromisService {
     							int tapNumber = Integer.parseInt( answerInstance.get("tapNumber").toString());
     							fingerTappingResult.put(operatingHand,tapNumber);
     						}
-    						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult, 
+							String surveyResults = json.get("preTaskSurvey").toString();
+    						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult,surveyResults,
     								timeToTap, screenWidth, screenHeight,timeTakenToComplete,timeStamp,Integer.parseInt(pin));
     						questionResult.add(postFingerTapping);
     						
