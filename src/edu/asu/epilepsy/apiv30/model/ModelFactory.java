@@ -275,6 +275,20 @@ public final class ModelFactory {
 			throw new ModelException("Unable to create Model Object", de);
 		}
 	}
+
+	public String getActivityParameters(String activityName) throws ModelException {
+
+		ValueObject vo = null;
+		try
+		{
+			vo = __theDAO.getActivityParameters(activityName);
+			return (String) vo.getAttribute("Parameters");
+		} catch (DAOException de) {
+			de.printStackTrace();
+			log.error(de);
+			throw new ModelException("Unable to create Model Object", de);
+		}
+	}
 	
 	public QuestionOption getOptionByText(String optionText) throws ModelException
 	{

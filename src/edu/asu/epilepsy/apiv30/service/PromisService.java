@@ -222,9 +222,11 @@ public class PromisService {
                 act.put("state", activityInstance.getState());
                 JSONObject obj = (JSONObject) new JSONParser().parse(activityInstance.getSequence());
                 JSONArray arr = (JSONArray) obj.get("sequence");
-                
                 act.put("sequence", arr);
-                
+				String activityTitle= (String)arr.get(0);
+				String parameters = __modelFactory.getActivityParameters(activityTitle);
+				JSONObject parameterobj = (JSONObject) new JSONParser().parse(parameters);
+				act.put("parameters", parameterobj);
                 activitySeqArray.add(act);
             }
             System.out.println(TAG + " checkActivityInstance() :- " + activitySeqArray.toJSONString());
@@ -351,7 +353,8 @@ public class PromisService {
     							int tapNumber = Integer.parseInt( answerInstance.get("tapNumber").toString());
     							fingerTappingResult.put(operatingHand,tapNumber);
     						}
-    						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult, 
+							String surveyResults = json.get("preTaskSurvey").toString();
+    						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult,surveyResults,
     								timeToTap, screenWidth, screenHeight,timeTakenToComplete,timeStamp,Integer.parseInt(pin));
     						questionResult.add(postFingerTapping);
     						
@@ -371,7 +374,8 @@ public class PromisService {
 								 System.out.println(TAG + " submitActivityInstance() :- " + answerInstance.toJSONString());
 								 results.add(answerInstance.toJSONString());
 	    						}
-							PostSpatialSpan postSpatialSpan = new PostSpatialSpan(activityType, activityInstanceId, results, timeToComplete, screenWidth, screenHeight,
+							String surveyResults = json.get("preTaskSurvey").toString();
+							PostSpatialSpan postSpatialSpan = new PostSpatialSpan(activityType, activityInstanceId, results,surveyResults, timeToComplete, screenWidth, screenHeight,
 									timeStamp, Integer.parseInt(pin));
 							questionResult.add(postSpatialSpan);
     						
@@ -392,13 +396,14 @@ public class PromisService {
 								 System.out.println(TAG + " submitActivityInstance() :- " + answerInstance.toJSONString());
 								 results.add(answerInstance.toJSONString());
 	    						}
-							PostFlanker postFlanker = new PostFlanker(activityType, activityInstanceId, results, timeToComplete, screenWidth, screenHeight,
+							String surveyResults = json.get("preTaskSurvey").toString();
+							PostFlanker postFlanker = new PostFlanker(activityType, activityInstanceId, results,surveyResults, timeToComplete, screenWidth, screenHeight,
 									timeStamp, Integer.parseInt(pin));
 							questionResult.add(postFlanker);
 							 
 ;    					}else if(activityType.equals("PATTERNCOMPARISON")){
 	
-							int screenWidth =Integer.parseInt(result.get("screenWidth").toString());
+							 int screenWidth =Integer.parseInt(result.get("screenWidth").toString());
 							 int screenHeight= Integer.parseInt(result.get("screenHeight").toString());;
 							 int timeToComplete = Integer.parseInt(result.get("timeTakenToComplete").toString());;
 							 System.out.println(TAG + " submitActivityInstance() :- ScreenHeight=" + screenHeight);
@@ -413,7 +418,8 @@ public class PromisService {
 								 System.out.println(TAG + " submitActivityInstance() :- " + answerInstance.toJSONString());
 								 results.add(answerInstance.toJSONString());
 								}
-							PostPatternComparison postPatternComparison = new PostPatternComparison(activityType, activityInstanceId, results, timeToComplete, screenWidth, screenHeight,
+							 String surveyResults = json.get("preTaskSurvey").toString();
+							PostPatternComparison postPatternComparison = new PostPatternComparison(activityType, activityInstanceId, results,surveyResults,timeToComplete, screenWidth, screenHeight,
 									timeStamp, Integer.parseInt(pin));
 							questionResult.add(postPatternComparison);
     						
