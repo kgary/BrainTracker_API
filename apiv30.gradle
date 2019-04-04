@@ -1,28 +1,24 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 apply plugin: 'java'
 apply plugin: 'war'
 
 sourceSets{
   main{
     java{
-      srcDirs 'src/main/java/edu/asu/epilepsy/apiv30'
-
+      srcDirs 'src/edu/asu/heal/promisapiv3/apiv30'
     }
   }
 }
 
-task deployDAO (type: Copy, dependsOn: compileJava) {
-  from 'src/main/java/edu/asu/epilepsy/apiv30/dao/dao.properties'
-  into 'build/classes/java/main/edu/asu/epilepsy/apiv30/dao'
+task deploy1 (type: Copy, dependsOn: compileJava) {
+  from 'src/edu/asu/heal/promisapiv3/apiv30/dao/dao.properties'
+  into 'build/classes/main/edu/asu/heal/promisapiv3/apiv30/dao'
 }
 
-task deployQuestionProperties (type: Copy, dependsOn: deployDAO) {
-  from 'src/main/java/edu/asu/epilepsy/apiv30/model/questionOption.properties'
-  into 'build/classes/java/main/edu/asu/epilepsy/apiv30/model'
-}
-
-task setDBConfig (dependsOn: deployQuestionProperties) {
+task something1 (dependsOn: deploy1) {
     doLast{
-        ant.propertyfile(file: "build/classes/java/main/edu/asu/epilepsy/apiv30/dao/dao.properties"){
+        ant.propertyfile(file: "build/classes/main/edu/asu/heal/promisapiv3/apiv30/dao/dao.properties"){
             entry(key : "jdbc.url", value : jdbcurl)
             entry( key : "jdbc.user", value : jdbcusername)
             entry( key : "jdbc.passwd", value : jdbcpassword)
@@ -31,12 +27,12 @@ task setDBConfig (dependsOn: deployQuestionProperties) {
 }
 
 war {
-  webXml = file('WebContent/WEB-INF/web.xml')
+  webXml = file('WebContent/WEB-INF/apiv30.xml')
   archiveName 'v30.war'
 }
 
 task CleanUp (type: Delete){
-  delete 'build/classes/java/main/edu/asu/epilepsy/apiv30'
+  delete 'build/classes/main/edu/asu/heal/promisapiv3/apiproxy', 'build/classes/main/edu/asu/heal/promisapiv3/apiv31s'
 }
 
 repositories {
