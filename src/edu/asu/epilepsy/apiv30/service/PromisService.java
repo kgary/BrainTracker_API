@@ -373,7 +373,8 @@ public class PromisService {
 								 System.out.println(TAG + " submitActivityInstance() :- " + answerInstance.toJSONString());
 								 results.add(answerInstance.toJSONString());
 	    						}
-							PostSpatialSpan postSpatialSpan = new PostSpatialSpan(activityType, activityInstanceId, results, timeToComplete, screenWidth, screenHeight,
+							String surveyResults = json.get("preTaskSurvey").toString();
+							PostSpatialSpan postSpatialSpan = new PostSpatialSpan(activityType, activityInstanceId, results,surveyResults, timeToComplete, screenWidth, screenHeight,
 									timeStamp, Integer.parseInt(pin));
 							questionResult.add(postSpatialSpan);
     						
