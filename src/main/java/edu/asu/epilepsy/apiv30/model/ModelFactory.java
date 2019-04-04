@@ -67,6 +67,26 @@ public final class ModelFactory {
     }
   }
 
+  public FlankerParameters getActivityParameters(String activityName) throws DAOException {
+    ValueObject vo = __theDAO.getActivityParameters(activityName);
+    return (FlankerParameters) vo.getAttribute("Parameters");
+  }
+
+  public SpatialSpanParameters getSpatialActivityParameters(String activityName) throws DAOException{
+    ValueObject vo = __theDAO.getActivityParameters(activityName);
+    return (SpatialSpanParameters) vo.getAttribute("Parameters");
+  }
+
+  public PatternComparisonParameters getPatternActivityParameters(String activityName) throws DAOException{
+    ValueObject vo=__theDAO.getActivityParameters(activityName);
+    return (PatternComparisonParameters) vo.getAttribute("Parameters");
+  }
+
+  public FingerTappingParameters getFingerActivityParameters(String activityName) throws DAOException{
+    ValueObject vo=__theDAO.getActivityParameters(activityName);
+    return (FingerTappingParameters) vo.getAttribute("Parameters");
+  }
+
 
   public Activity getActivity(String activityId, String patientPIN) throws ModelException {
     try {

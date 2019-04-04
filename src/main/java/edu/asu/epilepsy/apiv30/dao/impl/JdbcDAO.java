@@ -8,11 +8,14 @@ import edu.asu.epilepsy.apiv30.helper.APIConstants;
 import edu.asu.epilepsy.apiv30.helper.GsonFactory;
 import edu.asu.epilepsy.apiv30.model.ActivityInstance;
 import edu.asu.epilepsy.apiv30.model.ContainerActivity;
+import edu.asu.epilepsy.apiv30.model.FingerTappingParameters;
+import edu.asu.epilepsy.apiv30.model.FlankerParameters;
 import edu.asu.epilepsy.apiv30.model.MedicalAdherence;
 import edu.asu.epilepsy.apiv30.model.MedicalAdherence.MedicationInfo;
 import edu.asu.epilepsy.apiv30.model.ModelFactory;
 import edu.asu.epilepsy.apiv30.model.Patient;
 import edu.asu.epilepsy.apiv30.model.Patient.Trial;
+import edu.asu.epilepsy.apiv30.model.PatternComparisonParameters;
 import edu.asu.epilepsy.apiv30.model.PostActivity;
 import edu.asu.epilepsy.apiv30.model.PostFingerTapping;
 import edu.asu.epilepsy.apiv30.model.PostFlanker;
@@ -25,6 +28,7 @@ import edu.asu.epilepsy.apiv30.model.Question;
 import edu.asu.epilepsy.apiv30.model.Question.Type;
 import edu.asu.epilepsy.apiv30.model.QuestionOption;
 import edu.asu.epilepsy.apiv30.model.Sequence;
+import edu.asu.epilepsy.apiv30.model.SpatialSpanParameters;
 import edu.asu.epilepsy.apiv30.model.UILogger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,7 +36,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -127,6 +137,56 @@ public abstract class JdbcDAO implements DAO {
         } catch (Throwable t) {
             t.printStackTrace();
             throw new DAOException("Unable to process results from query sql.actvty");
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+                // YYY need a logging facility, but this does not have to be rethrown
+            }
+        }
+        return vo;
+    }
+
+    /**
+     * Get the activity parameters for an activity instance from the backing store
+     */
+    public ValueObject getActivityParameters(String activityName) throws DAOException {
+        ValueObject vo = null; // need to fill this up
+        Connection connection = getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            String query = DAOFactory.getDAOProperties().getProperty("sql.activityParameters");
+            ps = connection.prepareStatement(query);
+            ps.setString(1, activityName);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                vo = new ValueObject();
+                System.out.println(TAG + " getActivityParameters :- " + "ACTIVITY Parameters - " + rs.getString("Parameters"));
+
+                if(activityName.equals("Flanker-Test")){
+                    FlankerParameters parameters = GsonFactory.getInstance().getGson().fromJson(rs.getString("Parameters"), FlankerParameters.class);
+                    vo.putAttribute("Parameters", parameters);
+                }else if(activityName.equals("Spatial-Span")){
+                    SpatialSpanParameters parameters= GsonFactory.getInstance().getGson().fromJson(rs.getString("Parameters"), SpatialSpanParameters.class);
+                    System.out.println(TAG+"spatialSpanParameters:-"+rs.getNString("Parameters"));
+                    vo.putAttribute("Parameters", parameters);
+                } else if(activityName.equals("Pattern-Comparison")){
+                    PatternComparisonParameters parameters= GsonFactory.getInstance().getGson().fromJson(rs.getString("Parameters"), PatternComparisonParameters.class);
+                    System.out.println(TAG+"PatternComparisonParameters:-"+rs.getNString("Parameters"));
+                    vo.putAttribute("Parameters", parameters);
+                } else if(activityName.equals("Finger-Tapping")){
+                    FingerTappingParameters parameters= GsonFactory.getInstance().getGson().fromJson(rs.getString("Parameters"), FingerTappingParameters.class);
+                    System.out.println(TAG+"FingerTapping Parameters:-"+rs.getNString("Parameters"));
+                    vo.putAttribute("Parameters", parameters);
+                }
+          }
+        } catch (Throwable t) {
+            t.printStackTrace();
+            throw new DAOException("Unable to process results from query sql.activityParameters");
         } finally {
             try {
                 if (rs != null) rs.close();
