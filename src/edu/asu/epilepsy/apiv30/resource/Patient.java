@@ -22,26 +22,37 @@ import edu.asu.epilepsy.apiv30.service.PromisService;
 @Produces(MediaType.APPLICATION_JSON)
 public class Patient {
 	PromisService promis_service = new PromisService(); //Instantiating the promis service.
-	/**
-	 * Fetches an individual Patient by PIN
-	 * @param pin
-	 * @return
-	 */
+
+  /**
+   * @api {GET} /patients/{pin} Get Patient Information
+   * @apiName GetPatientInfo
+   * @apiGroup Patients
+   * @apiVersion 0.0.0
+   * @apiParam {Integer} pin Pin of the patient
+   * @apiDeprecated Method not implemented
+   * @apiSuccess {String} Result null
+   *
+   */
 	@GET
 	@Path("{pin}")
 	public Response getPatient(@PathParam("pin") String pin) {
 		return null;
 	}
-	
-	/**
-	 * Not fully specified. An example showing possible filter params on a collection of patients
-	 * @param trial
-	 * @param compliance ask for patients above or below a given compliance level
-	 * @param used in conjunction with previous param
-	 * @param includeDeleted should we include deactivated patients?
-	 * @param stage
-	 * @return
-	 */
+
+  /**
+   * @api {GET} /patients Get All Patient Information
+   * @apiName GetAllPatientInfo
+   * @apiGroup Patients
+   * @apiVersion 0.0.0
+   * @apiParam {String} trial the trial of the patient
+   * @apiParam {String} compliance the compliance of the patient
+   * @apiParam {String} above the above of the patient
+   * @apiParam {String} includeDeleted the includeDeleted of the patient
+   * @apiParam {String} stage the stage of the patient
+   * @apiDeprecated Method not implemented
+   * @apiSuccess {String} Result null
+   *
+   */
 	@GET
 	public Response getPatients(
 			@QueryParam("trial") int trial,
@@ -51,7 +62,38 @@ public class Patient {
 			@QueryParam("stage") int stage) {
 		return null;
 	}
-			
+
+  /**
+   * @api {POST} /patients/enrollpatient Enroll A New Patient
+   * @apiName EnrollPatient
+   * @apiGroup Patients
+   * @apiVersion 0.0.0
+   * @apiDescription This is a API which designed for patient enrollment.
+   * @apiExample Example of body:
+   * {
+   *     "patientGroup": "adult",
+   *     "childPin": "2017",
+   *     "deviceType": "android",
+   *     "deviceVersion": null,
+   *     "hydroxureaTablets": "0",
+   *     "isChildOnMed": "1",
+   *     "medDetails": [
+   *         {
+   *             "medicine": "ACTH",
+   *             "prescribedDosage": 2,
+   *             "tablet": 2
+   *         }
+   *     ]
+   * }
+   *
+   * @apiSuccess {JSON} message The message of the operation.
+   *
+   * @apiSuccessExample Example data on Success:
+   * {
+   *     "patientPIN": "4003",
+   *     "message": "SUCCESS"
+   * }
+   */
 	@POST
 	@Path("/enrollpatient")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -64,12 +106,17 @@ public class Patient {
 					.entity(jsonstring).build();		
 		return response;
 	}
-	
-	/**
-	 * Normally we'd do PATCH not PUT on a Patient but Jersey doesn't support PATCH out of the box
-	 * @param pin
-	 * @return
-	 */
+
+  /**
+   * @api {PUT} /patients/{pin} Update A Patient
+   * @apiName UpdatePatient
+   * @apiGroup Patients
+   * @apiVersion 0.0.0
+   * @apiDeprecated Method not implemented
+   *
+   * @apiSuccess {JSON} message The message of the operation.
+   *
+   */
 	@PUT
 	@Path("{pin}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -77,10 +124,14 @@ public class Patient {
 		// update the patient
 		return null;
 	}
-	
-	/**
-	 * Patuents are never fully deleted, they are only deactivated
-	 */
+
+  /**
+   * @api {DELETE} /patients Delete All Patients
+   * @apiName DeleteAllPatients
+   * @apiGroup Patients
+   * @apiVersion 0.0.0
+   * @apiDeprecated Method not implemented
+   */
 	@DELETE
 	public void deletePatient() {
 		// In reality this should just deactivate the patient
