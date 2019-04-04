@@ -394,7 +394,8 @@ public class PromisService {
 								 System.out.println(TAG + " submitActivityInstance() :- " + answerInstance.toJSONString());
 								 results.add(answerInstance.toJSONString());
 	    						}
-							PostFlanker postFlanker = new PostFlanker(activityType, activityInstanceId, results, timeToComplete, screenWidth, screenHeight,
+							String surveyResults = json.get("preTaskSurvey").toString();
+							PostFlanker postFlanker = new PostFlanker(activityType, activityInstanceId, results,surveyResults, timeToComplete, screenWidth, screenHeight,
 									timeStamp, Integer.parseInt(pin));
 							questionResult.add(postFlanker);
 							 

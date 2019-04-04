@@ -671,6 +671,7 @@ public abstract class JdbcDAO implements DAO {
                         int screenWidth = (int) postFlanker.getScreenWidth();
                         int screenHeight = (int) postFlanker.getScreenHeight();
                         ArrayList<String> results = postFlanker.getResults();
+						String surveyResults = postFlanker.getSurveyResults();
                         String resultToSubmit = results.toString();
                         
                         try 
@@ -682,6 +683,7 @@ public abstract class JdbcDAO implements DAO {
                         	ps.setFloat(5,screenWidth);
                         	ps.setTimestamp(6, userSubmissionTime);
                         	ps.setString(7, resultToSubmit);
+							ps.setString(8,surveyResults);
                         	ps.addBatch();
                         } 
                     	
