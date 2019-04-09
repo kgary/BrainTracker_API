@@ -420,7 +420,8 @@ public class PromisService {
 								 results.add(answerInstance.toJSONString());
 								}
 							 String surveyResults = json.get("preTaskSurvey").toString();
-							PostPatternComparison postPatternComparison = new PostPatternComparison(activityType, activityInstanceId, results,surveyResults,timeToComplete, screenWidth, screenHeight,
+							String parameters=json.get("parameters").toString();
+							PostPatternComparison postPatternComparison = new PostPatternComparison(activityType, activityInstanceId, results,surveyResults,parameters,timeToComplete, screenWidth, screenHeight,
 									timeStamp, Integer.parseInt(pin));
 							questionResult.add(postPatternComparison);
     						
