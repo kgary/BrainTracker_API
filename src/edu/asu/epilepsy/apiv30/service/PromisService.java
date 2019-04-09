@@ -397,11 +397,12 @@ public class PromisService {
 								 results.add(answerInstance.toJSONString());
 	    						}
 							String surveyResults = json.get("preTaskSurvey").toString();
-							PostFlanker postFlanker = new PostFlanker(activityType, activityInstanceId, results,surveyResults, timeToComplete, screenWidth, screenHeight,
-									timeStamp, Integer.parseInt(pin));
+							 String parameters=json.get("parameters").toString();
+							PostFlanker postFlanker = new PostFlanker(activityType, activityInstanceId, results,surveyResults, parameters ,
+									timeToComplete, screenWidth, screenHeight,timeStamp, Integer.parseInt(pin));
 							questionResult.add(postFlanker);
 							 
-;    					}else if(activityType.equals("PATTERNCOMPARISON")){
+    					}else if(activityType.equals("PATTERNCOMPARISON")){
 	
 							 int screenWidth =Integer.parseInt(result.get("screenWidth").toString());
 							 int screenHeight= Integer.parseInt(result.get("screenHeight").toString());;
