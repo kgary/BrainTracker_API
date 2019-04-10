@@ -13,16 +13,18 @@ public class PostFingerTapping extends PostActivity{
 	 private int timeToComplete;
 	 private Timestamp _userSubmittedTimeStamp;
 	 private String surveyResults;
+	 private String parameters;
 
 	 
 	public PostFingerTapping(String activityId, int activityInstanceId, 
-			HashMap<String, Integer> results,String surveyResults, int timeToTap, float screenWidth, float screenHeight,
+			HashMap<String, Integer> results,String surveyResults,String parameters, int timeToTap, float screenWidth, float screenHeight,
 			int timeToComplete, Timestamp userSubmittedTimeStamp,int patintPin) {
 		super();
 		this._activityId = activityId;
 		this._activityInstanceId = activityInstanceId;
 		this.results = results;
 		this.surveyResults=surveyResults;
+		this.parameters=parameters;
 		this.timeToTap = timeToTap;
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
@@ -79,6 +81,14 @@ public class PostFingerTapping extends PostActivity{
 
 	public void setSurveyResults(String surveyResults) {
 		this.surveyResults = surveyResults;
+	}
+
+	public String getParameters() {
+		return parameters;
+	}
+
+	public void setParameters(String parameters) {
+		this.parameters = parameters;
 	}
 
 	 

@@ -354,7 +354,8 @@ public class PromisService {
     							fingerTappingResult.put(operatingHand,tapNumber);
     						}
 							String surveyResults = json.get("preTaskSurvey").toString();
-    						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult,surveyResults,
+							String parameters=json.get("parameters").toString();
+    						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult,surveyResults,parameters,
     								timeToTap, screenWidth, screenHeight,timeTakenToComplete,timeStamp,Integer.parseInt(pin));
     						questionResult.add(postFingerTapping);
     						

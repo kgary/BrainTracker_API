@@ -627,6 +627,7 @@ public abstract class JdbcDAO implements DAO {
                         float screenWidth = postFingerTapping.getScreenWidth();
                         float screenHeight = postFingerTapping.getScreenHeight();
 						String surveyResults = postFingerTapping.getSurveyResults();
+						String parameters = postFingerTapping.getParameters();
 						HashMap<String, Integer> fingertappingResult = postFingerTapping.getResults();
                         JSONObject handObject = new JSONObject();
                         for (Map.Entry<String, Integer> item: fingertappingResult.entrySet()){
@@ -648,6 +649,7 @@ public abstract class JdbcDAO implements DAO {
                         	ps.setString(7, fingerTappingResult);
                         	ps.setInt(8, timeToComplete);
 							ps.setString(9,surveyResults);
+							ps.setString(10,parameters);
 							ps.addBatch();
                         } 
                     	
