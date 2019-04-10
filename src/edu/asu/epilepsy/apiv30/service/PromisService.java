@@ -375,7 +375,8 @@ public class PromisService {
 								 results.add(answerInstance.toJSONString());
 	    						}
 							String surveyResults = json.get("preTaskSurvey").toString();
-							PostSpatialSpan postSpatialSpan = new PostSpatialSpan(activityType, activityInstanceId, results,surveyResults, timeToComplete, screenWidth, screenHeight,
+							String parameters=json.get("parameters").toString();
+							PostSpatialSpan postSpatialSpan = new PostSpatialSpan(activityType, activityInstanceId, results,surveyResults,parameters, timeToComplete, screenWidth, screenHeight,
 									timeStamp, Integer.parseInt(pin));
 							questionResult.add(postSpatialSpan);
     						
