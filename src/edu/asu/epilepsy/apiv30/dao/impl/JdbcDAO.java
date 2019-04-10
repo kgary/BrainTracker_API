@@ -716,6 +716,7 @@ public abstract class JdbcDAO implements DAO {
                         int timeToComplete = postPatternComparison.getTotalTimeTaken();
                         int screenWidth = (int) postPatternComparison.getScreenWidth();
                         int screenHeight = (int) postPatternComparison.getScreenHeight();
+						double score=postPatternComparison.getScore();
                         ArrayList<String> results = postPatternComparison.getResults();
                         String surveyResults = postPatternComparison.getSurveyResults();
 						String parameters=postPatternComparison.getParameters();
@@ -729,10 +730,11 @@ public abstract class JdbcDAO implements DAO {
                         	ps.setInt(3, timeToComplete);
                         	ps.setFloat(4,screenHeight);
                         	ps.setFloat(5,screenWidth);
-                        	ps.setTimestamp(6, userSubmissionTime);
-                        	ps.setString(7, resultToSubmit);
-                        	ps.setString(8,surveyResults);
-							ps.setString(9,parameters);
+                        	ps.setDouble(6,score);
+                        	ps.setTimestamp(7, userSubmissionTime);
+                        	ps.setString(8, resultToSubmit);
+                        	ps.setString(9,surveyResults);
+							ps.setString(10,parameters);
                         	ps.addBatch();
                         } 
                     	
