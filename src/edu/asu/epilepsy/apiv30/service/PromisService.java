@@ -340,7 +340,8 @@ public class PromisService {
     						int screenHeight = Integer.parseInt(result.get("screenHeight").toString());
     						int timeToTap = Integer.parseInt(result.get("timeToTap").toString());
     						int timeTakenToComplete = Integer.parseInt(result.get("timeTakenToComplete").toString());
-    						
+    						double score= Double.parseDouble(result.get("score").toString());
+
     						System.out.println(TAG + " submitActivityInstance() :- ScreenHeight=" + screenHeight);
     						System.out.println(TAG + " submitActivityInstance() :- ScreenWidth=" + screenWidth);
     						System.out.println(TAG + " submitActivityInstance() :- Time TO Tap =" + timeToTap);
@@ -356,7 +357,7 @@ public class PromisService {
 							String surveyResults = json.get("preTaskSurvey").toString();
 							String parameters=json.get("parameters").toString();
     						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult,surveyResults,parameters,
-    								timeToTap, screenWidth, screenHeight,timeTakenToComplete,timeStamp,Integer.parseInt(pin));
+    								timeToTap, screenWidth, screenHeight,score,timeTakenToComplete,timeStamp,Integer.parseInt(pin));
     						questionResult.add(postFingerTapping);
     						
     					}else if(activityType.equals("SPATIALSPAN")){
