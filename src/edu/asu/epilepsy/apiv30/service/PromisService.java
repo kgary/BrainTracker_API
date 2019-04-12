@@ -340,7 +340,8 @@ public class PromisService {
     						int screenHeight = Integer.parseInt(result.get("screenHeight").toString());
     						int timeToTap = Integer.parseInt(result.get("timeToTap").toString());
     						int timeTakenToComplete = Integer.parseInt(result.get("timeTakenToComplete").toString());
-    						
+    						double score= Double.parseDouble(result.get("score").toString());
+
     						System.out.println(TAG + " submitActivityInstance() :- ScreenHeight=" + screenHeight);
     						System.out.println(TAG + " submitActivityInstance() :- ScreenWidth=" + screenWidth);
     						System.out.println(TAG + " submitActivityInstance() :- Time TO Tap =" + timeToTap);
@@ -354,8 +355,9 @@ public class PromisService {
     							fingerTappingResult.put(operatingHand,tapNumber);
     						}
 							String surveyResults = json.get("preTaskSurvey").toString();
-    						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult,surveyResults,
-    								timeToTap, screenWidth, screenHeight,timeTakenToComplete,timeStamp,Integer.parseInt(pin));
+							String parameters=json.get("parameters").toString();
+    						PostFingerTapping postFingerTapping = new PostFingerTapping(activityType, activityInstanceId, fingerTappingResult,surveyResults,parameters,
+    								timeToTap, screenWidth, screenHeight,score,timeTakenToComplete,timeStamp,Integer.parseInt(pin));
     						questionResult.add(postFingerTapping);
     						
     					}else if(activityType.equals("SPATIALSPAN")){
@@ -375,7 +377,8 @@ public class PromisService {
 								 results.add(answerInstance.toJSONString());
 	    						}
 							String surveyResults = json.get("preTaskSurvey").toString();
-							PostSpatialSpan postSpatialSpan = new PostSpatialSpan(activityType, activityInstanceId, results,surveyResults, timeToComplete, screenWidth, screenHeight,
+							String parameters=json.get("parameters").toString();
+							PostSpatialSpan postSpatialSpan = new PostSpatialSpan(activityType, activityInstanceId, results,surveyResults,parameters, timeToComplete, screenWidth, screenHeight,
 									timeStamp, Integer.parseInt(pin));
 							questionResult.add(postSpatialSpan);
     						
@@ -397,15 +400,17 @@ public class PromisService {
 								 results.add(answerInstance.toJSONString());
 	    						}
 							String surveyResults = json.get("preTaskSurvey").toString();
-							PostFlanker postFlanker = new PostFlanker(activityType, activityInstanceId, results,surveyResults, timeToComplete, screenWidth, screenHeight,
-									timeStamp, Integer.parseInt(pin));
+							 String parameters=json.get("parameters").toString();
+							PostFlanker postFlanker = new PostFlanker(activityType, activityInstanceId, results,surveyResults, parameters ,
+									timeToComplete, screenWidth, screenHeight,timeStamp, Integer.parseInt(pin));
 							questionResult.add(postFlanker);
 							 
-;    					}else if(activityType.equals("PATTERNCOMPARISON")){
+    					}else if(activityType.equals("PATTERNCOMPARISON")){
 	
 							 int screenWidth =Integer.parseInt(result.get("screenWidth").toString());
 							 int screenHeight= Integer.parseInt(result.get("screenHeight").toString());;
-							 int timeToComplete = Integer.parseInt(result.get("timeTakenToComplete").toString());;
+							 int timeToComplete = Integer.parseInt(result.get("timeTakenToComplete").toString());
+							 double score= Double.parseDouble(result.get("score").toString());
 							 System.out.println(TAG + " submitActivityInstance() :- ScreenHeight=" + screenHeight);
 							 System.out.println(TAG + " submitActivityInstance() :- ScreenWidth=" + screenWidth);
 							 System.out.println(TAG + " submitActivityInstance() :- Time taken to complete =" + timeToComplete);
@@ -419,8 +424,9 @@ public class PromisService {
 								 results.add(answerInstance.toJSONString());
 								}
 							 String surveyResults = json.get("preTaskSurvey").toString();
-							PostPatternComparison postPatternComparison = new PostPatternComparison(activityType, activityInstanceId, results,surveyResults,timeToComplete, screenWidth, screenHeight,
-									timeStamp, Integer.parseInt(pin));
+							String parameters=json.get("parameters").toString();
+							PostPatternComparison postPatternComparison = new PostPatternComparison(activityType, activityInstanceId, results,surveyResults,parameters,timeToComplete, screenWidth, screenHeight,
+									score,timeStamp, Integer.parseInt(pin));
 							questionResult.add(postPatternComparison);
     						
     					}

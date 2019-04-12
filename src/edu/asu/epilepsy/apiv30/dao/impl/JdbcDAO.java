@@ -626,7 +626,9 @@ public abstract class JdbcDAO implements DAO {
                         int timeToComplete = postFingerTapping.getTimeToComplete();
                         float screenWidth = postFingerTapping.getScreenWidth();
                         float screenHeight = postFingerTapping.getScreenHeight();
+                        double score=postFingerTapping.getScore();
 						String surveyResults = postFingerTapping.getSurveyResults();
+						String parameters = postFingerTapping.getParameters();
 						HashMap<String, Integer> fingertappingResult = postFingerTapping.getResults();
                         JSONObject handObject = new JSONObject();
                         for (Map.Entry<String, Integer> item: fingertappingResult.entrySet()){
@@ -644,10 +646,12 @@ public abstract class JdbcDAO implements DAO {
                         	ps.setInt(3, timeToTap);
                         	ps.setFloat(4,screenHeight);
                         	ps.setFloat(5,screenWidth);
-                        	ps.setTimestamp(6, userSubmissionTime);
-                        	ps.setString(7, fingerTappingResult);
-                        	ps.setInt(8, timeToComplete);
-							ps.setString(9,surveyResults);
+                        	ps.setDouble(6,score);
+                        	ps.setTimestamp(7, userSubmissionTime);
+                        	ps.setString(8, fingerTappingResult);
+                        	ps.setInt(9, timeToComplete);
+							ps.setString(10,surveyResults);
+							ps.setString(11,parameters);
 							ps.addBatch();
                         } 
                     	
@@ -674,6 +678,7 @@ public abstract class JdbcDAO implements DAO {
                         int screenHeight = (int) postFlanker.getScreenHeight();
                         ArrayList<String> results = postFlanker.getResults();
 						String surveyResults = postFlanker.getSurveyResults();
+						String parameters=postFlanker.getParameters();
                         String resultToSubmit = results.toString();
                         
                         try 
@@ -686,6 +691,7 @@ public abstract class JdbcDAO implements DAO {
                         	ps.setTimestamp(6, userSubmissionTime);
                         	ps.setString(7, resultToSubmit);
 							ps.setString(8,surveyResults);
+							ps.setString(9,parameters);
                         	ps.addBatch();
                         } 
                     	
@@ -710,8 +716,11 @@ public abstract class JdbcDAO implements DAO {
                         int timeToComplete = postPatternComparison.getTotalTimeTaken();
                         int screenWidth = (int) postPatternComparison.getScreenWidth();
                         int screenHeight = (int) postPatternComparison.getScreenHeight();
+						double score=postPatternComparison.getScore();
                         ArrayList<String> results = postPatternComparison.getResults();
                         String surveyResults = postPatternComparison.getSurveyResults();
+						String parameters=postPatternComparison.getParameters();
+
                         String resultToSubmit = results.toString();
                         
                         try 
@@ -721,9 +730,11 @@ public abstract class JdbcDAO implements DAO {
                         	ps.setInt(3, timeToComplete);
                         	ps.setFloat(4,screenHeight);
                         	ps.setFloat(5,screenWidth);
-                        	ps.setTimestamp(6, userSubmissionTime);
-                        	ps.setString(7, resultToSubmit);
-                        	ps.setString(8,surveyResults);
+                        	ps.setDouble(6,score);
+                        	ps.setTimestamp(7, userSubmissionTime);
+                        	ps.setString(8, resultToSubmit);
+                        	ps.setString(9,surveyResults);
+							ps.setString(10,parameters);
                         	ps.addBatch();
                         } 
                     	
@@ -749,8 +760,9 @@ public abstract class JdbcDAO implements DAO {
                         int screenHeight = (int) postSpatialSpan.getScreenHeight();
                         ArrayList<String> results = postSpatialSpan.getResults();
 						String surveyResults = postSpatialSpan.getSurveyResults();
+                        String parameters=postSpatialSpan.getParameters();
 						String resultToSubmit = results.toString();
-                        
+
                         try 
                         {
                     		ps.setInt(1, patientPin);
@@ -761,6 +773,7 @@ public abstract class JdbcDAO implements DAO {
                         	ps.setTimestamp(6, userSubmissionTime);
                         	ps.setString(7, resultToSubmit);
 							ps.setString(8,surveyResults);
+                            ps.setString(9,parameters);
 							ps.addBatch();
                         } 
                     	

@@ -12,8 +12,9 @@ public class PostFlanker extends PostActivity {
 	 private float screenHeight;
 	 private Timestamp _userSubmittedTimeStamp;
 	 private String surveyResults;
+	 private String parameters;
 	 
-	 public PostFlanker(String activityId, int activityInstanceId, ArrayList<String> results,String surveyResults,
+	 public PostFlanker(String activityId, int activityInstanceId, ArrayList<String> results,String surveyResults,String parameters,
 			 int totalTimeTaken, float screenWidth, float screenHeight, Timestamp userSubmittedTimeStamp,int patintPin){
 		 this._activityId = activityId;
 		 this._activityInstanceId = activityInstanceId;
@@ -24,6 +25,7 @@ public class PostFlanker extends PostActivity {
 		 this._userSubmittedTimeStamp = userSubmittedTimeStamp;
 		 this.patientPin = patintPin;
 		 this.surveyResults=surveyResults;
+		 this.parameters=parameters;
 	 }
 
 	 public int getPatientPin() {
@@ -82,7 +84,13 @@ public class PostFlanker extends PostActivity {
 		this.surveyResults = surveyResults;
 	}
 
+	public String getParameters() {
+		return parameters;
+	}
 
+	public void setParameters(String parameters) {
+		this.parameters = parameters;
+	}
 
 
 }
