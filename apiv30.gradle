@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'war'
 
+
 sourceSets{
   main{
     java{
@@ -30,7 +31,15 @@ task setDBConfig (dependsOn: deployQuestionProperties) {
   }
 }
 
+//need to handle Windows OS
+task apidoc {
+  exec {
+    commandLine 'sh', '-c', 'apidoc -i ./src -o ./apidocs/'
+  }
+}
+
 war {
+  from './apidocs' // adds apidocs to war
   webXml = file('WebContent/WEB-INF/web.xml')
   archiveName 'v30.war'
 }
@@ -48,3 +57,4 @@ repositories {
 dependencies {
   compile fileTree(dir: 'WebContent/WEB-INF/lib', include: '*.jar')
 }
+
