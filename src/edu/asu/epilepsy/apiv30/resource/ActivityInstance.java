@@ -121,7 +121,7 @@ public class ActivityInstance {
 	 *
 	 * @apiError (Error 404) UserNotFound The PIN is invalid
 	 * @apiError (Error 500) JsonError The JSON is invalid
-	 * @apiErrorExample {json} Error response:
+	 * @apiErrorExample {json} UserNotFound:
 	 *    {
 	 *     "developerMessage": null,
 	 *     "message": "The PIN is invalid",
