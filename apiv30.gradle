@@ -32,7 +32,6 @@ task setDBConfig (dependsOn: deployQuestionProperties) {
   }
 }
 
-//need to handle Windows OS
 task apidoc(type: Exec) {
   if (isFamily(FAMILY_MAC)){
     commandLine 'sh', '-c', 'apidoc -i ./src -o ./apidocs/'
