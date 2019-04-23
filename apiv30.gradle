@@ -1,3 +1,4 @@
+import static org.apache.tools.ant.taskdefs.condition.Os.*
 apply plugin: 'java'
 apply plugin: 'war'
 
@@ -31,10 +32,13 @@ task setDBConfig (dependsOn: deployQuestionProperties) {
   }
 }
 
-//need to handle Windows OS
-task apidoc {
-  exec {
+task apidoc(type: Exec) {
+  if (isFamily(FAMILY_MAC)){
     commandLine 'sh', '-c', 'apidoc -i ./src -o ./apidocs/'
+  }else if(isFamily(FAMILY_WINDOWS)){
+    commandLine 'cmd', '/c', 'apidoc -i ./src -o ./apidocs/'
+  }else if (isFamily(FAMILY_UNIX)){
+    commandLine 'apidoc -i ./src -o ./apidocs/'
   }
 }
 
