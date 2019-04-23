@@ -6,7 +6,7 @@ task buildapi(type: GradleBuild){
 //Use this task to build the whole project and produce a war file
 task buildv30(type: GradleBuild){
   buildFile = 'apiv30.gradle'
-  tasks = ['setDBConfig','war', 'CleanUp']
+  tasks = ['setDBConfig','apidoc','war', 'CleanUp']
 }
 
 task buildv31(type: GradleBuild, dependsOn: buildv30){
