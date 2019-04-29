@@ -52,6 +52,11 @@ task CleanUp (type: Delete){
   delete 'build/classes/java/main/edu/asu/epilepsy/apiv30'
 }
 
+task deployWar(type: Copy, dependsOn: war){
+  from 'build/libs/v30.war'
+  into tomcatwebappsdirectory
+}
+
 repositories {
   flatDir {
     dirs 'lib'
