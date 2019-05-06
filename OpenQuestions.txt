@@ -1,0 +1,17 @@
+Pattern Comparison Qs
+Should the timer go for x seconds and end or should the Activity end after the cumulative answer time is updated by a patients giving an answer and the time exceeds x seconds.
+Are there more images than the 129 images we currently have?
+Can images be shown more than once in a single Activity instance?
+Is there a designated ratio of same images vs different images, like 60% should be the same image when shown and 40% should have variation?
+According to the NIH Paper score is simply the number of correct answers within the time limit out of a total 130 possible. The updateReqs said the just calculate score as correct/answered. This does not give much insight considering a user could decide to answer exactly one question and answer it correctly. Of course the total questions asked and responses are sent in the payload as well so we can derive the info from there if that is how we want to handle it. What to do?
+
+Finger Tapping Qs
+If performed with two hands should one trial be considered an attempt with both hands? This would effectively mean performing 10 trials on one hand would be 10 tapping session and two hands would be 20 tapping sessions.
+
+Spatial Span Qs
+In Spatial Span, if a user enters the wrong sequence should they still enter a complete sequence or should the attempt immediately end? 
+
+For example, on level 2, if a user selects the wrong tile for the first part of the sequence should that attempt immediately end or should they select another tile to complete the attempt at getting the sequence?
+
+Flanker Qs
+What should be the default number of questions? By default now it is 20. Need to check with madison	
