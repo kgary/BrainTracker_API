@@ -45,7 +45,7 @@ task apidoc(type: Exec) {
 war {
   from './apidocs' // adds apidocs to war
   webXml = file('WebContent/WEB-INF/web.xml')
-  archiveName 'v30.war'
+  archiveName 'Epilepsy.war'
 }
 
 task CleanUp (type: Delete){
@@ -53,7 +53,7 @@ task CleanUp (type: Delete){
 }
 
 task deployWar(type: Copy, dependsOn: war){
-  from 'build/libs/v30.war'
+  from 'build/libs/Epilepsy.war'
   into tomcatwebappsdirectory
 }
 
