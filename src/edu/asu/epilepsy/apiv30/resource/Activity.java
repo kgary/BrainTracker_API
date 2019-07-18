@@ -64,7 +64,7 @@ public class Activity {
 	 *       "consecTrials":"2",
 	 *       "maxDiff":"5",
 	 *       "trialTime":"5",
-	 *       "twoHands":"false"
+	 *       "twoHands":"true"
 	 *    }
 	 * }
 	 *
