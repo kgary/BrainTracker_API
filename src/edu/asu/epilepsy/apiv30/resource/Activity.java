@@ -27,12 +27,20 @@ public class Activity {
 	 * @apiName ScheduleActivity
 	 * @apiGroup Activity
 	 * @apiVersion 0.0.0
-	 * @apiDescription Create a new activity instance for a specific patient, designated by pin.
+	 * @apiDescription Create a new activity instance for a specific patient, designated by pin. 
+	 * 				   May optionally include activity-specific parameters, which are not verified.
 	 * @apiExample Example of body:
 	 * {
 	 *    "pin":"1009",
 	 *    "parentactivity":"PATTERNCOMPARISON",
-	 *    "trial_type":"EPILEPSY"
+	 *    "trial_type":"EPILEPSY",
+	 *    "parameters": {
+	 *    		"maxTime": "90",
+	 *			"newImages": "false",
+	 *			"numQuestions": "130",
+	 *			"ratio": "50",
+	 *			"bound": "5"
+	 *	  }
 	 * }
 	 *
 	 * @apiSuccess {JSON} message The success response message.
@@ -81,8 +89,7 @@ public class Activity {
 	 */
 	@POST
 	@Path("/scheduleactivity/")
-	public Response activityInstance(String content
-	) throws NumberFormatException, Exception
+	public Response activityInstance(String content) throws NumberFormatException, Exception
 	{
 
 		Response response=null;

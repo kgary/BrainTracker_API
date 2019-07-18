@@ -64,7 +64,7 @@ public interface DAO {
 		return null;
 	}
 	
-	public default ValueObject createActivityInstance(String sequence,String patientPIN,String startTime,String endTime,Trial trialType,String activityID) throws DAOException
+	public default ValueObject createActivityInstance(String sequence,String patientPIN,String startTime,String endTime,Trial trialType,String activityID, String params) throws DAOException
 	{
 		return null;
 	}

@@ -59,16 +59,15 @@ public final class ModelFactory {
 						(String)vo.getAttribute("Sequence"), // assuming this is JSON?
 						(String)vo.getAttribute("activityTitle"),
 						(String)vo.getAttribute("description"),
-						(String)vo.getAttribute("patientPin"));
-			}
-			
+						(String)vo.getAttribute("patientPin"),
+						(String)vo.getAttribute("parameters"));
+			}			
 		} catch (DAOException de) {
 			de.printStackTrace();
 			log.error(de);
 			throw new ModelException("Unable to create Model Object", de);
 		}
 	}
-	
 	
 	public Activity getActivity(String activityId,String patientPIN) throws ModelException {
 		try {
@@ -77,9 +76,8 @@ public final class ModelFactory {
 			vo = __theDAO.getJoinActivity(activityId);
 			ContainerActivityMapping containerActvtyRef = (ContainerActivityMapping)vo.getAttribute("containerActivityReference");
 			ArrayList<String> childActivities = containerActvtyRef._childActivities;
-			//The check to find if the activity is a child activity or parent activity.
 			
-			
+			//The check to find if the activity is a child activity or parent activity.		
 			childActivities.forEach(System.out::println);
 			if(childActivities.size() > 0)
 			{
@@ -383,9 +381,10 @@ public final class ModelFactory {
 	}
 	
 	//Inserting the generated sequence in the database.
-	public boolean createActivityInstance(String sequence,String patientPIN,Trial trialType,String startTime,String endTime,String activityID) throws ModelException, DAOException
+	public boolean createActivityInstance(String sequence,String patientPIN,Trial trialType,
+				String startTime,String endTime,String activityID, String params) throws ModelException, DAOException
 	{	
-		ValueObject vo = __theDAO.createActivityInstance(sequence, patientPIN, startTime,endTime, trialType,activityID);
+		ValueObject vo = __theDAO.createActivityInstance(sequence, patientPIN, startTime,endTime, trialType, activityID, params);
 		
 		return (boolean) vo.getAttribute("result");
 	}

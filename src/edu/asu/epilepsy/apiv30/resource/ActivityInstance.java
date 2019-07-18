@@ -136,7 +136,7 @@ public class ActivityInstance {
 	) throws Exception {
 
 		Response response = null;
-		String json_string=promis_service.checkActivityInstance(pin);
+		String json_string=promis_service.getActivityInstances(pin);
 
 		response = Response.status(Response.Status.OK).entity(json_string).build();
 		return response;
