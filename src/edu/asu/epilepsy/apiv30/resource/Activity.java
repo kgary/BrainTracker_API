@@ -29,18 +29,56 @@ public class Activity {
 	 * @apiVersion 0.0.0
 	 * @apiDescription Create a new activity instance for a specific patient, designated by pin. 
 	 * 				   May optionally include activity-specific parameters, which are not verified.
-	 * @apiExample Example of body:
+	 * @apiExample Example Flanker:
+	 * {
+	 *    "pin":"1009",
+	 *    "parentactivity":"FLANKER",
+	 *    "trial_type":"EPILEPSY",
+	 *    "parameters":{
+	 *       "noOfQuestions":"20",
+	 *       "pauseTime":"5"
+	 *    }
+	 * }
+	 *
+	 * @apiExample Example Pattern Comparison:
 	 * {
 	 *    "pin":"1009",
 	 *    "parentactivity":"PATTERNCOMPARISON",
 	 *    "trial_type":"EPILEPSY",
-	 *    "parameters": {
-	 *    		"maxTime": "90",
-	 *			"newImages": "false",
-	 *			"numQuestions": "130",
-	 *			"ratio": "50",
-	 *			"bound": "5"
-	 *	  }
+	 *    "parameters":{
+	 *       "maxTime":"90",
+	 *       "newImages":"false",
+	 *       "numQuestions":"130",
+	 *       "ratio":"50",
+	 *       "bound":"5"
+	 *    }
+	 * }
+	 *
+	 * @apiExample Example Finger Tapping:
+	 * {
+	 *    "pin":"1009",
+	 *    "parentactivity":"FINGERTAPPING",
+	 *    "trial_type":"EPILEPSY",
+	 *    "parameters":{
+	 *       "maxTrials":"10",
+	 *       "consecTrials":"2",
+	 *       "maxDiff":"5",
+	 *       "trialTime":"5",
+	 *       "twoHands":"false"
+	 *    }
+	 * }
+	 *
+	 * @apiExample Example Spatial Span:
+	 * {
+	 *    "pin":"1009",
+	 *    "parentactivity":"SPATIALSPAN",
+	 *    "trial_type":"EPILEPSY",
+	 *    "parameters":{
+	 *       "maxDifficulty":"10",
+	 *       "maxTrialCount":"2",
+	 *       "maxCorrectSoFar":"1",
+	 *       "lightUpTime":"2"
+	 *    }
 	 * }
 	 *
 	 * @apiSuccess {JSON} message The success response message.
