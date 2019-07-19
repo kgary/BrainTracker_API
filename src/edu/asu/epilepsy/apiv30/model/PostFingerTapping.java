@@ -12,21 +12,27 @@ public class PostFingerTapping extends PostActivity{
 	 private float screenHeight;
 	 private int timeToComplete;
 	 private Timestamp _userSubmittedTimeStamp;
+	 private String surveyResults;
+	 private String parameters;
+	 private double score;
 
 	 
 	public PostFingerTapping(String activityId, int activityInstanceId, 
-			HashMap<String, Integer> results, int timeToTap, float screenWidth, float screenHeight,
-			int timeToComplete, Timestamp userSubmittedTimeStamp,int patintPin) {
+			HashMap<String, Integer> results,String surveyResults,String parameters, int timeToTap, float screenWidth, float screenHeight,
+			double score,int timeToComplete, Timestamp userSubmittedTimeStamp,int patintPin) {
 		super();
 		this._activityId = activityId;
 		this._activityInstanceId = activityInstanceId;
 		this.results = results;
+		this.surveyResults=surveyResults;
+		this.parameters=parameters;
 		this.timeToTap = timeToTap;
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		this.timeToComplete = timeToComplete;
 		this._userSubmittedTimeStamp = userSubmittedTimeStamp;
 		this.patientPin = patintPin;
+		this.score=score;
 	}
 	public int getPatientPin() {
 		return patientPin;
@@ -70,7 +76,30 @@ public class PostFingerTapping extends PostActivity{
 	public void setTimeToComplete(int timeToComplete) {
 		this.timeToComplete = timeToComplete;
 	}
-	 
-	 
+
+	public String getSurveyResults() {
+		return surveyResults;
+	}
+
+	public void setSurveyResults(String surveyResults) {
+		this.surveyResults = surveyResults;
+	}
+
+	public String getParameters() {
+		return parameters;
+	}
+
+	public void setParameters(String parameters) {
+		this.parameters = parameters;
+	}
+
+	public double getScore() {
+		return score;
+	}
+
+	public void setScore(double score) {
+		this.score = score;
+	}
+
 	 
 }

@@ -26,6 +26,10 @@ public interface DAO {
 	public default ValueObject getActivityInstance(String activityInstanceId) throws DAOException {
 		return null;
 	}
+
+	public default ValueObject getActivityParameters(String activityName) throws DAOException {
+		return null;
+	}
 	
 	public default ValueObject getActivity(String activityId) throws DAOException {
 		return null;
@@ -60,7 +64,7 @@ public interface DAO {
 		return null;
 	}
 	
-	public default ValueObject createActivityInstance(String sequence,String patientPIN,String startTime,String endTime,Trial trialType,String activityID) throws DAOException
+	public default ValueObject createActivityInstance(String sequence,String patientPIN,String startTime,String endTime,Trial trialType,String activityID, String params) throws DAOException
 	{
 		return null;
 	}

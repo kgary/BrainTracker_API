@@ -10,8 +10,10 @@ public class PostSpatialSpan extends PostActivity{
 	 private float screenWidth;
 	 private float screenHeight;
 	 private Timestamp _userSubmittedTimeStamp;
-	 
-	 public PostSpatialSpan(String activityId, int activityInstanceId, ArrayList<String> results, 
+	 private String surveyResults;
+	private String parameters;
+
+	public PostSpatialSpan(String activityId, int activityInstanceId, ArrayList<String> results,String surveyResults,String parameters,
 			 int totalTimeTaken, float screenWidth, float screenHeight, Timestamp userSubmittedTimeStamp,int patintPin){
 		 this._activityId = activityId;
 		 this._activityInstanceId = activityInstanceId;
@@ -21,6 +23,8 @@ public class PostSpatialSpan extends PostActivity{
 		 this.screenWidth = screenWidth;
 		 this._userSubmittedTimeStamp = userSubmittedTimeStamp;
 		 this.patientPin = patintPin;
+		 this.surveyResults=surveyResults;
+		 this.parameters=parameters;
 	 }
 
 	 public int getPatientPin() {
@@ -69,6 +73,22 @@ public class PostSpatialSpan extends PostActivity{
 
 	public void set_userSubmittedTimeStamp(Timestamp _userSubmittedTimeStamp) {
 		this._userSubmittedTimeStamp = _userSubmittedTimeStamp;
+	}
+
+	public String getSurveyResults() {
+		return surveyResults;
+	}
+
+	public void setSurveyResults(String surveyResults) {
+		this.surveyResults = surveyResults;
+	}
+
+	public String getParameters() {
+		return parameters;
+	}
+
+	public void setParameters(String parameters) {
+		this.parameters = parameters;
 	}
 	 
 	 

@@ -19,9 +19,12 @@ public final class ActivityInstance {
 	private final String activityTitle;
 	private final String description;	
 	private final String patientPin;	
+	private final String parameters;
 	
 	/* package scope on purpose */
-	public ActivityInstance(String aid, Date startTime, Date endTime, Date userSubmissionTime, Date actualSubmissionTime, String state, String sequence,String activityTitle, String description,String patientPin) throws ModelException {
+	public ActivityInstance(String aid, Date startTime, Date endTime, 
+			Date userSubmissionTime, Date actualSubmissionTime, String state, 
+			String sequence,String activityTitle, String description,String patientPin, String params) throws ModelException {
 		// Initialize existing one from DAO
 		activityInstanceId = aid;
 		this.startTime = startTime;
@@ -33,6 +36,7 @@ public final class ActivityInstance {
 		this.activityTitle = activityTitle;
 		this.description = description;
 		this.patientPin = patientPin;
+		this.parameters = params;
 	}
 	
 	public String getActivityTitle() {
@@ -75,4 +79,7 @@ public final class ActivityInstance {
 		return patientPin;
 	}
 	
+	public String getParameters() {
+		return parameters;  // these are not merged with the defining Activity
+	}
 }
