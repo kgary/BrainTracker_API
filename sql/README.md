@@ -1,1 +1,1 @@
-dump71719_KGparammods.sql is teh latest
+dump71719_KGparammods.sql is the latest
